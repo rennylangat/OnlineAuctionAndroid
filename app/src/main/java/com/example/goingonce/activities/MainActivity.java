@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    private static final String TAG="MainActivity";
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DatabaseReference mDatabaseReference;
     private FirebaseRecyclerAdapter<ItemDets, PostViewHolder> mAdapter;
+    private FirebaseAuth mFirebaseAuth;
 
     private ProgressBar progressBar;
 
@@ -57,6 +60,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mFirebaseAuth=FirebaseAuth.getInstance();
+
+        if (mFirebaseAuth.getCurrentUser()==null){
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            finish();
+        }
+        Log.d(TAG,mFirebaseAuth.getCurrentUser().toString());
 
 
         mDatabaseReference= FirebaseDatabase.getInstance().getReference().child("Posts");
