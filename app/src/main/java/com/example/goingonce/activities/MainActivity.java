@@ -1,4 +1,4 @@
-package com.example.goingonce;
+package com.example.goingonce.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.example.goingonce.Adapters.SingleItemAdapter;
+import com.example.goingonce.R;
 import com.example.goingonce.models.ItemDets;
 
 import java.util.ArrayList;
