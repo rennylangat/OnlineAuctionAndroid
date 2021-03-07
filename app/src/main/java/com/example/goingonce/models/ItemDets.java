@@ -1,16 +1,19 @@
 package com.example.goingonce.models;
 
 public class ItemDets {
-    String itemName;
-    String itemPrice;
-    String itemDesc;
-    String itemImg;
+    private String itemName,description,baseBid,startTime,endTime,imageUrl;
 
-    public ItemDets(String itemName, String itemPrice, String itemDesc, String itemImg) {
+    public ItemDets(){
+
+    }
+
+    public ItemDets(String itemName, String description, String baseBid, String startTime, String endTime, String imageUrl) {
         this.itemName = itemName;
-        this.itemPrice = itemPrice;
-        this.itemDesc = itemDesc;
-        this.itemImg = itemImg;
+        this.description = description;
+        this.baseBid = baseBid;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.imageUrl = imageUrl;
     }
 
     public String getItemName() {
@@ -21,37 +24,55 @@ public class ItemDets {
         this.itemName = itemName;
     }
 
-    public String getItemPrice() {
-        return itemPrice;
+    public String getDescription() {
+        return description;
     }
 
-    public void setItemPrice(String itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getItemDesc() {
-        return itemDesc;
+    public String getBaseBid() {
+        return baseBid;
     }
 
-    public void setItemDesc(String itemDesc) {
-        this.itemDesc = itemDesc;
+    public void setBaseBid(String baseBid) {
+        this.baseBid = baseBid;
     }
 
-    public String getItemImg() {
-        return itemImg;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setItemImg(String itemImg) {
-        this.itemImg = itemImg;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
     public String toString() {
         return "ItemDets{" +
                 "itemName='" + itemName + '\'' +
-                ", itemPrice='" + itemPrice + '\'' +
-                ", itemDesc='" + itemDesc + '\'' +
-                ", itemImg='" + itemImg + '\'' +
+                ", description='" + description + '\'' +
+                ", baseBid='" + baseBid + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }
