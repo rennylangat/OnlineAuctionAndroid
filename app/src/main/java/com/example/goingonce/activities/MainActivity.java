@@ -3,6 +3,7 @@ package com.example.goingonce.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +21,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.goingonce.Adapters.SingleItemAdapter;
+import com.example.goingonce.Auth.LoginActivity;
 import com.example.goingonce.R;
 import com.example.goingonce.models.ItemDets;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -90,27 +97,86 @@ public class MainActivity extends AppCompatActivity {
                 mDatabaseReference,ItemDets.class
         ).build();
 
-        mAdapter=new FirebaseRecyclerAdapter<ItemDets, PostViewHolder>() {
+        mAdapter=new FirebaseRecyclerAdapter<ItemDets, PostViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull ItemDets model) {
+                holder.itemName.setText(model.getItemName());
+                holder.itemDesc.setText(model.getDescription());
+                holder.baseBid.setText("Base Bid: Ksh."+model.getBaseBid());
+                holder.startTime.setText("Start Time: "+model.getStartTime());
+                holder.endTime.setText("End Time: "+model.getEndTime());
 
+                Picasso.get().load(model.getImageUrl()).into(holder.imageView);
+
+                holder.bidBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!holder.didBid){
+                            AlertDialog(holder);
+                        }else{
+                            Toast.makeText(mContext,"Your bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
 
             @NonNull
             @Override
             public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return null;
+                View view= LayoutInflater.from(mContext).inflate(R.layout.single_item_layout,parent,false);
+                return new PostViewHolder(view);
             }
+        };
+
+        mAdapter.startListening();
+        recyclerView.setAdapter(mAdapter);
+
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id=item.getItemId();
+        if (mDrawerToggle.onOptionsItemSelected(item)){
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item){
+        int id=item.getItemId();
 
+        if (id==R.id.add){
+            startActivity(new Intent(mContext,AddPostActivity.class));
+        }else  if(id==R.id.logout){
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(mContext, LoginActivity.class));
+            finish();
+        }
+
+        DrawerLayout drawerLayout=findViewById(R.id.drawer);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public class PostViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public void onBackPressed() {
+        Intent a=new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+        //super.onBackPressed();
+    }
+
+    public static class PostViewHolder extends RecyclerView.ViewHolder{
         TextView itemName,itemDesc,baseBid,startTime,endTime;
         ImageView imageView;
         Button bidBtn;
@@ -119,7 +185,15 @@ public class MainActivity extends AppCompatActivity {
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            itemName=itemView.findViewById(R.id.item_name);
+            itemDesc = itemView.findViewById(R.id.description);
+            baseBid = itemView.findViewById(R.id.base_bid);
+            startTime = itemView.findViewById(R.id.start_time);
+            endTime = itemView.findViewById(R.id.end_time);
+            imageView = itemView.findViewById(R.id.image_view);
+            bidBtn = itemView.findViewById(R.id.placeBid);
+            didBid=false;
+            bidAmt="";
         }
     }
 

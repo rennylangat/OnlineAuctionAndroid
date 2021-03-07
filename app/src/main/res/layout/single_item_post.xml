@@ -34,7 +34,53 @@
             android:text="Description"
             android:textStyle="italic"
             android:textSize="16sp"
-            
-    </LinearLayout>
+            android:id="@+id/description"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:autoLink="web"
+            android:textColorLink="#a0d3ff"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Base Bid"
+            android:id="@+id/base_bid"
+            android:textSize="15sp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColorLink="#69a2ff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Time"
+            android:textSize="15sp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:id="@+id/start_time"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Time"
+            android:textSize="15sp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:id="@+id/end_time"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="BID"
+            android:id="@+id/placeBid"
+            android:layout_margin="8dp"
+            android:layout_gravity="right"
+            android:textColor="@color/white"
+            android:background="@drawable/bid_layout"/>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
