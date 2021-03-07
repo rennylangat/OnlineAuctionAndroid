@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -91,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public  void AlertDialog(final PostViewHolder holder){
+        mDialog=new Dialog(MainActivity.this);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialog.setContentView();
 
     }
 
