@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -94,7 +95,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public  void AlertDialog(final PostViewHolder holder){
         mDialog=new Dialog(MainActivity.this);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.setContentView();
+        mDialog.setContentView(R.layout.bid_dialog);
+        mDialog.setTitle("Bid");
+
+        btnEnterBid=mDialog.findViewById(R.id.btnBidDiag);
+        final EditText editBidAmt=mDialog.findViewById(R.id.editEnterBid);
+
+        btnEnterBid.setEnabled(true);
+
+        btnEnterBid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!editBidAmt.getText().toString().isEmpty()){
+                    holder.bidAmt=editBidAmt.getText().toString().trim();
+                    holder.didBid=true;
+                    Toast.makeText(getApplicationContext(),"Your Bid is:c"+holder.bidAmt,Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
+                }
+            }
+        });
+
+        mDialog.show();
 
     }
 
