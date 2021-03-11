@@ -64,7 +64,12 @@ public class AddPostActivity extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                publishPost();
+                final String itemName=itmName.getText().toString();
+                final String itemDesc=itmDesc.getText().toString();
+                final String baseBid=itmBaseBid.getText().toString();
+                final String startTime=itmStartTime.getText().toString();
+                final String endTime=itmEndTime.getText().toString();
+                publishPost(itemName,itemDesc,baseBid,startTime,endTime);
             }
         });
     }
@@ -79,15 +84,10 @@ public class AddPostActivity extends AppCompatActivity {
         }
     }
 
-    private void publishPost() {
-        final String itemName=itmName.getText().toString();
-        final String itemDesc=itmDesc.getText().toString();
-        final String baseBid=itmBaseBid.getText().toString();
-        final String startTime=itmStartTime.getText().toString();
-        final String endTime=itmEndTime.getText().toString();
-
+    private void publishPost(String itemName,String itemDesc,String baseBid,String startTime,String endTime) {
+        Toast.makeText(getApplicationContext(),itemName,Toast.LENGTH_SHORT).show();
         if (!itemName.isEmpty() && !itemDesc.isEmpty() && !baseBid.isEmpty() && !startTime.isEmpty()
-        && endTime.isEmpty()){
+        && !endTime.isEmpty()){
             final StorageReference filePath=mStorageRef.child("AuctionImages").child(imgUri.getLastPathSegment());
 
             UploadTask uploadTask=filePath.putFile(imgUri);
@@ -98,7 +98,6 @@ public class AddPostActivity extends AppCompatActivity {
                     if (!task.isSuccessful()){
                         throw  task.getException();
                     }
-
                     return filePath.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -125,7 +124,7 @@ public class AddPostActivity extends AppCompatActivity {
                 }
             });
         }else{
-            Toast.makeText(getApplicationContext(),"Please choose and image and make sure all fields are filled",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Please choose and image and make sure all fields are filled"+itemName,Toast.LENGTH_SHORT).show();
         }
     }
 }

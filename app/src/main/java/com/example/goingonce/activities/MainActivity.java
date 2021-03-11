@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Button btnEnterBid;
     private Dialog mDialog;
+    private TextView txtLoading;
 
     private ArrayList<ItemDets> itemDets;
     private Context mContext=MainActivity.this;
@@ -69,14 +70,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             finish();
         }
-        Log.d(TAG,mFirebaseAuth.getCurrentUser().toString());
-
+        Log.d(TAG,"No user Logged in.");
 
         mDatabaseReference= FirebaseDatabase.getInstance().getReference().child("Posts");
 
         mDrawerLayout=findViewById(R.id.drawer);
         navigationView=findViewById(R.id.nav_view);
         progressBar=findViewById(R.id.progressBarHome);
+        txtLoading=findViewById(R.id.txtLoading);
 
         recyclerView=(RecyclerView)findViewById(R.id.recycler_view_home);
 
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (!editBidAmt.getText().toString().isEmpty()){
                     holder.bidAmt=editBidAmt.getText().toString().trim();
                     holder.didBid=true;
-                    Toast.makeText(getApplicationContext(),"Your Bid is:c"+holder.bidAmt,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Your Bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
                     mDialog.dismiss();
                 }
             }
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStart() {
         super.onStart();
 
+        txtLoading.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         progressBar.bringToFront();
         recyclerView.setVisibility(View.GONE);
@@ -134,13 +136,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAdapter=new FirebaseRecyclerAdapter<ItemDets, PostViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull ItemDets model) {
-                holder.itemName.setText(model.getItemName());
-                holder.itemDesc.setText(model.getDescription());
-                holder.baseBid.setText("Base Bid: Ksh."+model.getBaseBid());
-                holder.startTime.setText("Start Time: "+model.getStartTime());
-                holder.endTime.setText("End Time: "+model.getEndTime());
 
-                Picasso.get().load(model.getImageUrl()).into(holder.imageView);
+
+
+
+                holder.itemName.setText(itemDets.get(position).getItemName());
+                holder.itemDesc.setText(itemDets.get(position).getDescription());
+                holder.baseBid.setText("Base Bid: Ksh."+itemDets.get(position).getBaseBid());
+                holder.startTime.setText("Start Time: "+itemDets.get(position).getStartTime());
+                holder.endTime.setText("End Time: "+itemDets.get(position).getEndTime());
+
+                Picasso.get().load(itemDets.get(position).getImageUrl()).into(holder.imageView);
 
                 holder.bidBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -165,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAdapter.startListening();
         recyclerView.setAdapter(mAdapter);
 
+        txtLoading.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
     }

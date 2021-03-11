@@ -1,19 +1,28 @@
 package com.example.goingonce.models;
 
 public class ItemDets {
-    private String itemName,description,baseBid,startTime,endTime,imageUrl;
+    private String itemId,itemName,description,baseBid,startTime,endTime,imageUrl;
 
     public ItemDets(){
 
     }
 
-    public ItemDets(String itemName, String description, String baseBid, String startTime, String endTime, String imageUrl) {
+    public ItemDets(String itemId,String itemName, String description, String baseBid, String startTime, String endTime, String imageUrl) {
+        this.itemId=itemId;
         this.itemName = itemName;
         this.description = description;
         this.baseBid = baseBid;
         this.startTime = startTime;
         this.endTime = endTime;
         this.imageUrl = imageUrl;
+    }
+
+    public String getItemId(){
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getItemName() {
