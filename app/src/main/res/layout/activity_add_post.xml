@@ -32,7 +32,7 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/input_outline"
             android:ems="10"
-            android:hint="Item Name"
+            android:hint="@string/item_name"
             android:padding="10dp"/>
 
         <com.google.android.material.textfield.TextInputEditText
@@ -45,7 +45,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/input_outline"
             android:ems="10"
-            android:hint="Item Description"
+            android:hint="@string/item_description"
             android:padding="10dp"/>
 
         <com.google.android.material.textfield.TextInputEditText
@@ -59,7 +59,7 @@
             android:background="@drawable/input_outline"
             android:ems="10"
             android:inputType="number"
-            android:hint="Base Bid"
+            android:hint="@string/base_bid"
             android:padding="10dp"/>
 
 
@@ -74,7 +74,7 @@
             android:background="@drawable/input_outline"
             android:ems="10"
             android:inputType="datetime"
-            android:hint="Start Time"
+            android:hint="@string/start_time"
             android:padding="10dp"/>
 
         <com.google.android.material.textfield.TextInputEditText
@@ -88,7 +88,7 @@
             android:background="@drawable/input_outline"
             android:ems="10"
             android:inputType="datetime"
-            android:hint="End Time"
+            android:hint="@string/end_time"
             android:padding="10dp"/>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                 android:background="@color/design_default_color_primary"
                 android:id="@+id/submitBtn"
                 android:layout_alignParentBottom="true"
-                android:text="PUBLISH PRODUCT"
+                android:text="@string/publish_product"
                 android:textColor="@color/white"
                 android:layout_margin="10dp"/>
         </RelativeLayout>
