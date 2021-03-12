@@ -25,18 +25,29 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.goingonce.Adapters.PostsAdapter;
 import com.example.goingonce.Auth.LoginActivity;
 import com.example.goingonce.R;
 import com.example.goingonce.models.ItemDets;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.type.DateTime;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -44,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
-    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
     private DatabaseReference mDatabaseReference;
-    private FirebaseRecyclerAdapter<ItemDets, PostViewHolder> mAdapter;
+    //private FirebaseRecyclerAdapter<ItemDets, PostViewHolder> mAdapter;
     private FirebaseAuth mFirebaseAuth;
 
     private ProgressBar progressBar;
@@ -56,8 +67,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Dialog mDialog;
     private TextView txtLoading;
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private PostsAdapter postAdapter;
     private ArrayList<ItemDets> itemDets;
     private Context mContext=MainActivity.this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +87,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         Log.d(TAG,"No user Logged in.");
 
-        mDatabaseReference= FirebaseDatabase.getInstance().getReference().child("Posts");
 
+        mFirebaseAuth=FirebaseAuth.getInstance();
+
+        mDatabaseReference= FirebaseDatabase.getInstance().getReference();
+
+        //setup Widgets
         mDrawerLayout=findViewById(R.id.drawer);
         navigationView=findViewById(R.id.nav_view);
         progressBar=findViewById(R.id.progressBarHome);
         txtLoading=findViewById(R.id.txtLoading);
-
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_view_home);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -88,12 +105,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        recyclerView=(RecyclerView)findViewById(R.id.recycler_view_home);
+        linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setAdapter(mAdapter);
+        itemDets=new ArrayList<ItemDets>();
+
+
+        mDatabaseReference.child("Posts").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    progressBar.setVisibility(View.INVISIBLE);
+                    txtLoading.setVisibility(View.INVISIBLE);
+
+                    for (DataSnapshot ds1:snapshot.getChildren()){
+                        try {
+                            ItemDets dets=ds1.getValue(ItemDets.class);
+                            itemDets.add(dets);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            txtLoading.setVisibility(View.INVISIBLE);
+
+                        }catch (Exception e){
+                            Toast.makeText(mContext,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    postAdapter=new PostsAdapter(itemDets,MainActivity.this);
+                    recyclerView.setAdapter(postAdapter);
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"No Bids Posted Yet",Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    txtLoading.setText("No Bids Available");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(mContext,"Error connecting to Dbase",Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
-    public  void AlertDialog(final PostViewHolder holder){
+
+//Method Moved to Adapter Class
+
+/*    public void AlertDialog(final PostViewHolder holder){
         mDialog=new Dialog(MainActivity.this);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.bid_dialog);
@@ -118,13 +181,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mDialog.show();
 
-    }
+    }*/
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        txtLoading.setVisibility(View.VISIBLE);
+        //Method Moved to Adapter class. Can be Uncommented to check out
+
+
+        /*txtLoading.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         progressBar.bringToFront();
         recyclerView.setVisibility(View.GONE);
@@ -136,10 +202,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAdapter=new FirebaseRecyclerAdapter<ItemDets, PostViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull ItemDets model) {
-
-
-
-
                 holder.itemName.setText(itemDets.get(position).getItemName());
                 holder.itemDesc.setText(itemDets.get(position).getDescription());
                 holder.baseBid.setText("Base Bid: Ksh."+itemDets.get(position).getBaseBid());
@@ -173,13 +235,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         txtLoading.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);*/
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAdapter.stopListening();
     }
 
     @Override
@@ -236,6 +297,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             didBid=false;
             bidAmt="";
         }
+    }
+    private String getDateTime() {
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+
     }
 
 
