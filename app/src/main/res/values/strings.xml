@@ -4,5 +4,15 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="title_activity_add_post">AddPostActivity</string>
+    <string name="ksh">Ksh</string>
+    <string name="current_balance">Current Balance</string>
+    <string name="deposit">Deposit</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="_0_243232_btc">0.243232 BTC</string>
+    <string name="_1000">1000</string>
+    <string name="item_name">Item Name</string>
+    <string name="_32_87">$32.87</string>
+    <string name="_3_5">3.5%</string>
 
 </resources>
