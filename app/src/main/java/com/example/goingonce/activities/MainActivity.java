@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -72,12 +74,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PostsAdapter postAdapter;
     private ArrayList<ItemDets> itemDets;
     private Context mContext=MainActivity.this;
+    private Locale currLocale;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        currLocale=getResources().getConfiguration().locale;
+
 
         mFirebaseAuth=FirebaseAuth.getInstance();
 
@@ -121,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     txtLoading.setVisibility(View.INVISIBLE);
 
                     for (DataSnapshot ds1:snapshot.getChildren()){
+
                         try {
                             ItemDets dets=ds1.getValue(ItemDets.class);
                             itemDets.add(dets);
@@ -306,6 +313,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Locale locale = getLocale(this);
 
+        if (!locale.equals(currLocale)) {
 
+            currLocale = locale;
+            recreate();
+        }
+    }
+
+    public static Locale getLocale(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String lang = sharedPreferences.getString("language", "en");
+        switch (lang) {
+            case "English":
+                lang = "en";
+                break;
+            case "Spanish":
+                lang = "es";
+                break;
+        }
+        return new Locale(lang);
+    }
 }

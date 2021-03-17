@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view"
+
     android:layout_margin="13dp"
     app:cardCornerRadius="5dp"
     app:cardBackgroundColor="@color/white">
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="@string/item_name"
             android:padding="8dp"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:id="@+id/item_name"/>
 

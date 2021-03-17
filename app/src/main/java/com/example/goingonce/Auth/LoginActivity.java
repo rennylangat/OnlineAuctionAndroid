@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth=FirebaseAuth.getInstance();
-        if (Objects.requireNonNull(mAuth.getCurrentUser()).getUid().isEmpty()){
+        if (mAuth.getCurrentUser()!=null){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
         txtLoginMail=findViewById(R.id.txtMail);

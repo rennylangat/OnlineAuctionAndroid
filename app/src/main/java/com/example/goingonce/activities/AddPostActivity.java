@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.goingonce.R;
@@ -22,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Calendar;
 
 public class AddPostActivity extends AppCompatActivity {
 
@@ -48,6 +52,42 @@ public class AddPostActivity extends AppCompatActivity {
         itmStartTime=findViewById(R.id.edit_start_time);
         itmEndTime=findViewById(R.id.edit_end_time);
         submitBtn=findViewById(R.id.submitBtn);
+
+
+        itmStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mCurrTime=Calendar.getInstance();
+                int hour=mCurrTime.get(Calendar.HOUR_OF_DAY);
+                int minute=mCurrTime.get(Calendar.MINUTE);
+                TimePickerDialog timePickerDialog=new TimePickerDialog(AddPostActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        itmStartTime.setText(hourOfDay+":"+ minute);
+                    }
+                },hour,minute,true);
+                timePickerDialog.setTitle("Select Time");
+                timePickerDialog.show();
+            }
+        });
+
+        itmEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mCurrTime=Calendar.getInstance();
+                int hour=mCurrTime.get(Calendar.HOUR_OF_DAY);
+                int minute=mCurrTime.get(Calendar.MINUTE);
+                TimePickerDialog timePickerDialog=new TimePickerDialog(AddPostActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        itmEndTime.setText(hourOfDay+":"+ minute);
+                    }
+                },hour,minute,true);
+                timePickerDialog.setTitle("Select Time");
+                timePickerDialog.show();
+            }
+        });
+
 
         mStorageRef= FirebaseStorage.getInstance().getReference();
         mRef= FirebaseDatabase.getInstance().getReference().child("Posts");

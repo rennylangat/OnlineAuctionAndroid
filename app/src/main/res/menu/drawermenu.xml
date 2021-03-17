@@ -4,8 +4,19 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/home"
+            android:title="Add Item"
+            android:icon="@drawable/ic_add_circle_black_24dp"/>
+
         <item
             android:id="@+id/add"
+            android:title="Add Item"
+            android:icon="@drawable/ic_add_circle_black_24dp"/>
+
+        <item
+            android:id="@+id/editItem"
             android:title="Add Item"
             android:icon="@drawable/ic_add_circle_black_24dp"/>
 
