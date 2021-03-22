@@ -34,7 +34,128 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="450dp"
+        android:background="@drawable/detail_page_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <TextView
+            android:id="@+id/txtCategory1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/ic_cat_bg"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:text="Cosmetics"
+            android:textSize="15sp"
+            android:textColor="@drawable/screen_background_dark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toTopOf="parent"
+            android:layout_marginLeft="24dp" />
+
+        <TextView
+            android:id="@+id/txtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/ic_cat_bg"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:text="Location"
+            android:textColor="@drawable/screen_background_dark"
+            app:layout_constraintBottom_toBottomOf="@+id/txtCategory1"
+            app:layout_constraintStart_toEndOf="@+id/txtCategory1"
+            app:layout_constraintTop_toTopOf="@+id/txtCategory1"/>
+
+        <TextView
+            android:id="@+id/txtItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/rubik_bold"
+            android:text="Japanese Cherry Blossom"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/txtPrice"
+            app:layout_constraintStart_toStartOf="@+id/txtCategory1"
+            app:layout_constraintTop_toBottomOf="@+id/txtCategory1" />
+
+        <TextView
+            android:id="@+id/txtPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:textColor="#42995C"
+            android:textSize="20sp"
+            android:text="$ 15.00"
+            android:fontFamily="@font/rubik_bold"
+            app:layout_constraintBottom_toBottomOf="@+id/txtItemTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txtItemTitle"/>
+
+
+        <TextView
+            android:id="@+id/txtItemDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/rubik"
+            android:lineSpacingExtra="2dp"
+            android:text="A moisturizing body with a sweet and refreshing aroma of Japanese cherry blossom, peony, musk, and strawberry. Will make the skin feel moist and smooth. The combination also makes long-lasting fragrance."
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintEnd_toEndOf="@+id/txtPrice"
+            app:layout_constraintStart_toStartOf="@+id/txtItemTitle"
+            app:layout_constraintTop_toBottomOf="@+id/txtItemTitle" />
+
+        <ImageView
+            android:id="@+id/minusBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txtItemDesc"
+            app:layout_constraintTop_toTopOf="@+id/btnBid"
+            app:srcCompat="@drawable/ic_minus"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:id="@+id/txtBid"
+            android:layout_width="50dp"
+            android:layout_height="53dp"
+            android:gravity="center"
+            android:text="1.00"
+            android:textColor="@drawable/screen_background_dark"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/minusBtn"
+            app:layout_constraintStart_toEndOf="@+id/minusBtn"
+            app:layout_constraintTop_toTopOf="@+id/minusBtn"
+            app:layout_constraintVertical_bias="0.0"/>
+
+        <ImageView
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/txtBid"
+            app:layout_constraintStart_toEndOf="@+id/txtBid"
+            app:layout_constraintTop_toTopOf="@id/txtBid"
+            app:srcCompat="@drawable/ic_plus"
+            tools:ignore="VectorDrawableCompat" />
+
+        <Button
+            android:id="@+id/btnBid"
+            android:layout_width="180dp"
+            android:layout_height="80dp"
+            android:background="@drawable/detail_pg_cart_btn_bg"
+            android:drawableRight="@drawable/ic_arrow_forward_black"
+            android:padding="16dp"
+            android:text="BID"
+            android:fontFamily="@font/rubik_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/imgItem"
