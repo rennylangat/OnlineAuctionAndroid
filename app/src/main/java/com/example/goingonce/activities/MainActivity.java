@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.goingonce.Adapters.PostsAdapter;
 import com.example.goingonce.Auth.LoginActivity;
 import com.example.goingonce.R;
+import com.example.goingonce.Settings.SettingsActivity;
 import com.example.goingonce.models.ItemDets;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -161,88 +162,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-//Method Moved to Adapter Class
-
-/*    public void AlertDialog(final PostViewHolder holder){
-        mDialog=new Dialog(MainActivity.this);
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.setContentView(R.layout.bid_dialog);
-        mDialog.setTitle("Bid");
-
-        btnEnterBid=mDialog.findViewById(R.id.btnBidDiag);
-        final EditText editBidAmt=mDialog.findViewById(R.id.editEnterBid);
-
-        btnEnterBid.setEnabled(true);
-
-        btnEnterBid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!editBidAmt.getText().toString().isEmpty()){
-                    holder.bidAmt=editBidAmt.getText().toString().trim();
-                    holder.didBid=true;
-                    Toast.makeText(getApplicationContext(),"Your Bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                    mDialog.dismiss();
-                }
-            }
-        });
-
-        mDialog.show();
-
-    }*/
-
     @Override
     protected void onStart() {
         super.onStart();
 
-        //Method Moved to Adapter class. Can be Uncommented to check out
-
-
-        /*txtLoading.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
-        recyclerView.setVisibility(View.GONE);
-
-        FirebaseRecyclerOptions<ItemDets> options=new FirebaseRecyclerOptions.Builder<ItemDets>().setQuery(
-                mDatabaseReference,ItemDets.class
-        ).build();
-
-        mAdapter=new FirebaseRecyclerAdapter<ItemDets, PostViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull ItemDets model) {
-                holder.itemName.setText(itemDets.get(position).getItemName());
-                holder.itemDesc.setText(itemDets.get(position).getDescription());
-                holder.baseBid.setText("Base Bid: Ksh."+itemDets.get(position).getBaseBid());
-                holder.startTime.setText("Start Time: "+itemDets.get(position).getStartTime());
-                holder.endTime.setText("End Time: "+itemDets.get(position).getEndTime());
-
-                Picasso.get().load(itemDets.get(position).getImageUrl()).into(holder.imageView);
-
-                holder.bidBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!holder.didBid){
-                            AlertDialog(holder);
-                        }else{
-                            Toast.makeText(mContext,"Your bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view= LayoutInflater.from(mContext).inflate(R.layout.single_item_layout,parent,false);
-                return new PostViewHolder(view);
-            }
-        };
-
-        mAdapter.startListening();
-        recyclerView.setAdapter(mAdapter);
-
-        txtLoading.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);*/
     }
 
     @Override
@@ -269,6 +192,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(mContext, LoginActivity.class));
             finish();
+        }else if (id==R.id.editItem){
+            startActivity(new Intent(mContext,EditItemActivity.class));
+        }else if (id==R.id.settings){
+            startActivity(new Intent(mContext, SettingsActivity.class));
+        }else if (id==R.id.myBids){
+            startActivity(new Intent(mContext,MyBids.class));
         }
 
         DrawerLayout drawerLayout=findViewById(R.id.drawer);

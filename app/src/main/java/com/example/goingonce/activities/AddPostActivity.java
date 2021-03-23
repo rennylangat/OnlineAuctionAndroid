@@ -39,7 +39,7 @@ import java.util.Calendar;
 public class AddPostActivity extends AppCompatActivity {
 
     private ImageButton imgBtn;
-    private EditText itmName,itmDesc,itmBaseBid,itmStartTime,itmEndTime;
+    private EditText itmName,itmDesc,itmBaseBid,location,itmEndTime;
     private AutoCompleteTextView itemType;
     private Button submitBtn;
     private Context mContext=AddPostActivity.this;
@@ -62,7 +62,7 @@ public class AddPostActivity extends AppCompatActivity {
         itmName=findViewById(R.id.edit_item_name);
         itmDesc=findViewById(R.id.edit_desc);
         itmBaseBid=findViewById(R.id.edit_base_bid);
-        itmStartTime=findViewById(R.id.edit_location);
+        location=findViewById(R.id.edit_location);
         itmEndTime=findViewById(R.id.edit_end_time);
         submitBtn=findViewById(R.id.submitBtn);
         itemType=findViewById(R.id.edit_item_type);
@@ -72,23 +72,6 @@ public class AddPostActivity extends AppCompatActivity {
 
         itemType.setAdapter(adapter);
 
-
-        itmStartTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar mCurrTime=Calendar.getInstance();
-                int hour=mCurrTime.get(Calendar.HOUR_OF_DAY);
-                int minute=mCurrTime.get(Calendar.MINUTE);
-                TimePickerDialog timePickerDialog=new TimePickerDialog(AddPostActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        itmStartTime.setText(hourOfDay+":"+ minute);
-                    }
-                },hour,minute,true);
-                timePickerDialog.setTitle("Select Time");
-                timePickerDialog.show();
-            }
-        });
 
         itmEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +109,7 @@ public class AddPostActivity extends AppCompatActivity {
                 final String itemName=itmName.getText().toString();
                 final String itemDesc=itmDesc.getText().toString();
                 final String baseBid=itmBaseBid.getText().toString();
-                final String startTime=itmStartTime.getText().toString();
+                final String startTime=location.getText().toString();
                 final String endTime=itmEndTime.getText().toString();
                 publishPost(itemName,itemDesc,baseBid,startTime,endTime);
             }
