@@ -9,7 +9,7 @@
     <string name="bid">BID</string>
     <string name="publish_product">PUBLISH PRODUCT</string>
     <string name="end_time">End Time</string>
-    <string name="start_time">Start Time</string>
+    <string name="location">Location</string>
     <string name="base_bid">Base Bid</string>
     <string name="item_description">Item Description</string>
     <string name="item_name">Item Name</string>
