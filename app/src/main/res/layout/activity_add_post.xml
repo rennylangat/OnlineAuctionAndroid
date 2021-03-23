@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/detail_page_bg"
-                android:backgroundTint="@color/design_default_color_primary_dark"
+                app:backgroundTint="@color/design_default_color_primary_dark"
                 android:id="@+id/submitBtn"
                 android:layout_alignParentBottom="true"
                 android:text="@string/publish_product"

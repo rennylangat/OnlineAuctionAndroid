@@ -72,21 +72,6 @@ public class AddPostActivity extends AppCompatActivity {
 
         itemType.setAdapter(adapter);
 
-        itemType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu=new PopupMenu(mContext,itemType);
-                popupMenu.inflate(R.menu.type_menu);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        itemType.setText(item.getTitle());
-                        return true;
-                    }
-                });
-            }
-        });
-
 
         itmStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
