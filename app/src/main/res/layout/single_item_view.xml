@@ -31,7 +31,7 @@
         android:layout_marginRight="24dp"
         tools:ignore="VectorDrawableCompat" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="450dp"
         android:background="@drawable/detail_page_bg"
@@ -47,12 +47,10 @@
             android:layout_marginTop="120dp"
             android:background="@drawable/ic_cat_bg"
             android:fontFamily="@font/rubik_medium"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:text="Cosmetics"
             android:textSize="15sp"
             android:textColor="@drawable/screen_background_dark"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toTopOf="parent"
             android:layout_marginLeft="24dp" />
 
         <TextView
@@ -155,12 +153,12 @@
             android:fontFamily="@font/rubik_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/imgItem"
         android:layout_width="256dp"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
         android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
