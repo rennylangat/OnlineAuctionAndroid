@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Loading Bids..."
+            android:text="Loading Items..."
             android:textSize="16sp"
             android:textStyle="bold"
             android:id="@+id/txtLoading"
@@ -52,8 +52,8 @@
         android:id="@+id/nav_view"
         app:headerLayout="@layout/header"
         android:background="@color/white"
-        app:itemTextColor="#A9A9A9"
-        app:itemIconTint="#A9A9A9"
+        app:itemTextColor="#000000"
+        app:itemIconTint="@color/design_default_color_primary_dark"
         app:menu="@menu/drawermenu"
         android:layout_gravity="start">
 

@@ -1,4 +1,4 @@
-package com.example.goingonce.activities.Settings;
+package com.example.goingonce.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -1,6 +1,7 @@
 package com.example.goingonce.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -12,6 +13,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -30,6 +33,7 @@ import android.widget.Toast;
 import com.example.goingonce.Adapters.PostsAdapter;
 import com.example.goingonce.Auth.LoginActivity;
 import com.example.goingonce.R;
+import com.example.goingonce.Settings.SettingsActivity;
 import com.example.goingonce.models.ItemDets;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -77,11 +81,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Locale currLocale;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getWindow().setStatusBarColor(Color.BLACK);
         currLocale=getResources().getConfiguration().locale;
 
 
@@ -161,88 +167,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-//Method Moved to Adapter Class
-
-/*    public void AlertDialog(final PostViewHolder holder){
-        mDialog=new Dialog(MainActivity.this);
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.setContentView(R.layout.bid_dialog);
-        mDialog.setTitle("Bid");
-
-        btnEnterBid=mDialog.findViewById(R.id.btnBidDiag);
-        final EditText editBidAmt=mDialog.findViewById(R.id.editEnterBid);
-
-        btnEnterBid.setEnabled(true);
-
-        btnEnterBid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!editBidAmt.getText().toString().isEmpty()){
-                    holder.bidAmt=editBidAmt.getText().toString().trim();
-                    holder.didBid=true;
-                    Toast.makeText(getApplicationContext(),"Your Bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                    mDialog.dismiss();
-                }
-            }
-        });
-
-        mDialog.show();
-
-    }*/
-
     @Override
     protected void onStart() {
         super.onStart();
 
-        //Method Moved to Adapter class. Can be Uncommented to check out
-
-
-        /*txtLoading.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
-        recyclerView.setVisibility(View.GONE);
-
-        FirebaseRecyclerOptions<ItemDets> options=new FirebaseRecyclerOptions.Builder<ItemDets>().setQuery(
-                mDatabaseReference,ItemDets.class
-        ).build();
-
-        mAdapter=new FirebaseRecyclerAdapter<ItemDets, PostViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull ItemDets model) {
-                holder.itemName.setText(itemDets.get(position).getItemName());
-                holder.itemDesc.setText(itemDets.get(position).getDescription());
-                holder.baseBid.setText("Base Bid: Ksh."+itemDets.get(position).getBaseBid());
-                holder.startTime.setText("Start Time: "+itemDets.get(position).getStartTime());
-                holder.endTime.setText("End Time: "+itemDets.get(position).getEndTime());
-
-                Picasso.get().load(itemDets.get(position).getImageUrl()).into(holder.imageView);
-
-                holder.bidBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!holder.didBid){
-                            AlertDialog(holder);
-                        }else{
-                            Toast.makeText(mContext,"Your bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view= LayoutInflater.from(mContext).inflate(R.layout.single_item_layout,parent,false);
-                return new PostViewHolder(view);
-            }
-        };
-
-        mAdapter.startListening();
-        recyclerView.setAdapter(mAdapter);
-
-        txtLoading.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);*/
     }
 
     @Override
@@ -269,6 +197,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(mContext, LoginActivity.class));
             finish();
+        }else if (id==R.id.editItem){
+            startActivity(new Intent(mContext,EditItemActivity.class));
+        }else if (id==R.id.settings){
+            startActivity(new Intent(mContext, SettingsActivity.class));
+        }else if (id==R.id.myBids){
+            startActivity(new Intent(mContext,MyBids.class));
         }
 
         DrawerLayout drawerLayout=findViewById(R.id.drawer);
@@ -286,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder{
-        TextView itemName,itemDesc,baseBid,startTime,endTime;
+        TextView itemName,itemDesc,type,baseBid,location,endTime;
         ImageView imageView;
         Button bidBtn;
         boolean didBid;
@@ -296,8 +230,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super(itemView);
             itemName=itemView.findViewById(R.id.item_name);
             itemDesc = itemView.findViewById(R.id.description);
+            type=itemView.findViewById(R.id.type);
             baseBid = itemView.findViewById(R.id.base_bid);
-            startTime = itemView.findViewById(R.id.start_time);
+            location = itemView.findViewById(R.id.location);
             endTime = itemView.findViewById(R.id.end_time);
             imageView = itemView.findViewById(R.id.image_view);
             bidBtn = itemView.findViewById(R.id.placeBid);

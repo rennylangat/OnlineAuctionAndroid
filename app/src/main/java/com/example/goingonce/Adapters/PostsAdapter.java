@@ -2,6 +2,7 @@ package com.example.goingonce.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goingonce.R;
+import com.example.goingonce.activities.ViewItem;
 import com.example.goingonce.models.ItemDets;
 import com.squareup.picasso.Picasso;
 
@@ -47,37 +49,44 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull PostsAdapter.MyViewHolder holder, int position) {
-        final String postID=itemDets.get(position).getItemId();
+        final String postID=itemDets.get(position).getItemID();
         final String itemName=itemDets.get(position).getItemName();
         final String description=itemDets.get(position).getDescription();
+        final String type=itemDets.get(position).getType();
         final String baseBid=itemDets.get(position).getBaseBid();
-        final String startTime=itemDets.get(position).getStartTime();
+        final String location=itemDets.get(position).getLocation();
         final String endTime=itemDets.get(position).getEndTime();
 
-        Toast.makeText(mContext,itemName,Toast.LENGTH_SHORT).show();
 
         holder.txtitemName.setText(itemName);
         holder.txtitemDesc.setText(description);
         holder.txtbaseBid.setText(baseBid);
-        holder.txtstartTime.setText(startTime);
+        holder.txtLocation.setText(location);
         holder.txtendTime.setText(endTime);
+        holder.txtType.setText(type);
 
         Picasso.get().load(itemDets.get(position).getImageUrl()).into(holder.imageView);
 
         holder.bidBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!holder.didBid){
-                    createDialog(holder);
-                    Toast.makeText(mContext,"Place Bid Button",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(mContext,"Your bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                }
+                Intent intent=new Intent(mContext,ViewItem.class);
+                intent.putExtra("postId",postID);
+                mContext.startActivity(intent);
+            }
+        });
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext,ViewItem.class);
+                intent.putExtra("postId",postID);
+                mContext.startActivity(intent);
+
             }
         });
     }
 
-    private void createDialog(MyViewHolder holder) {
+/*    private void createDialog(MyViewHolder holder) {
         mDialog=new Dialog(mContext);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.bid_dialog);
@@ -101,7 +110,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
         });
 
         mDialog.show();
-    }
+    }*/
 
     @Override
     public int getItemCount() {
@@ -110,7 +119,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         LinearLayout view;
-        TextView txtitemName,txtitemDesc,txtbaseBid,txtstartTime,txtendTime;
+        TextView txtitemName,txtitemDesc,txtType,txtbaseBid,txtLocation,txtendTime;
         ImageView imageView;
         Button bidBtn;
         boolean didBid;
@@ -121,8 +130,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
             view=(LinearLayout)itemView.findViewById(R.id.view);
             txtitemName=(TextView)itemView.findViewById(R.id.item_name);
             txtitemDesc =(TextView) itemView.findViewById(R.id.description);
+            txtType=itemView.findViewById(R.id.type);
             txtbaseBid = (TextView) itemView.findViewById(R.id.base_bid);
-            txtstartTime = (TextView) itemView.findViewById(R.id.start_time);
+            txtLocation = (TextView) itemView.findViewById(R.id.location);
             txtendTime = (TextView) itemView.findViewById(R.id.end_time);
             imageView = (ImageView) itemView.findViewById(R.id.image_view);
             bidBtn = (Button) itemView.findViewById(R.id.placeBid);
