@@ -57,7 +57,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
         final String location=itemDets.get(position).getLocation();
         final String endTime=itemDets.get(position).getEndTime();
 
-        Toast.makeText(mContext,itemName,Toast.LENGTH_SHORT).show();
 
         holder.txtitemName.setText(itemName);
         holder.txtitemDesc.setText(description);
@@ -71,33 +70,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
         holder.bidBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!holder.didBid){
-                    createDialog(holder);
-                    Toast.makeText(mContext,"Place Bid Button",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(mContext,"Your bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                }
+                Intent intent=new Intent(mContext,ViewItem.class);
+                intent.putExtra("postId",postID);
+                mContext.startActivity(intent);
             }
         });
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,postID,Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(mContext,ViewItem.class);
                 intent.putExtra("postId",postID);
-                intent.putExtra("itemName",itemName);
-                intent.putExtra("type",type);
-                intent.putExtra("description",description);
-                intent.putExtra("location",location);
-                intent.putExtra("imageUrl",itemDets.get(position).getImageUrl());
-                intent.putExtra("price",baseBid);
                 mContext.startActivity(intent);
 
             }
         });
     }
 
-    private void createDialog(MyViewHolder holder) {
+/*    private void createDialog(MyViewHolder holder) {
         mDialog=new Dialog(mContext);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.bid_dialog);
@@ -121,7 +110,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
         });
 
         mDialog.show();
-    }
+    }*/
 
     @Override
     public int getItemCount() {

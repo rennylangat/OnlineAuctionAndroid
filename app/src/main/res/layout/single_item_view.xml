@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:id="@+id/view1"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Theme.AppCompat.Light.NoActionBar"
-    android:background="@drawable/bg">
+    android:background="@color/design_default_color_primary">
 
     <ImageView
         android:id="@+id/bckBtn"
@@ -27,19 +27,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_alignParentRight="true"
         app:srcCompat="@drawable/ic_more"
         android:layout_marginRight="24dp"
         tools:ignore="VectorDrawableCompat" />
 
     <RelativeLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="450dp"
         android:background="@drawable/detail_page_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_below="@+id/imgItem"
+        android:layout_alignParentBottom="true">
 
         <TextView
             android:id="@+id/txtCat"
@@ -70,7 +68,7 @@
 
         <TextView
             android:id="@+id/txtItemTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginRight="32dp"
@@ -92,7 +90,6 @@
             android:textSize="18sp"
             android:gravity="center_vertical"
             android:text="$15.00"
-            android:layout_toRightOf="@+id/txtItemTitle"
             android:layout_below="@+id/txtItemTitle"
             android:layout_alignParentRight="true"
             android:fontFamily="@font/rubik_bold" />
@@ -131,17 +128,17 @@
                 android:gravity="center"
                 android:textSize="20sp"
                 android:textColor="@color/black"
+                android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@+id/minusBtn"
                 android:id="@+id/currPlaceHolder"/>
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtBid"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="53dp"
             android:gravity="center"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
-            android:text="1.00"
+            android:inputType="number"
+            android:text="0.00"
             android:layout_toRightOf="@+id/currPlaceHolder"
             android:textColor="@drawable/screen_background_dark"
             android:textSize="20sp" />
@@ -150,6 +147,7 @@
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             app:srcCompat="@drawable/ic_plus"
             android:layout_toRightOf="@+id/txtBid"
             tools:ignore="VectorDrawableCompat" />
@@ -160,25 +158,23 @@
             android:layout_height="50dp"
             android:background="@drawable/detail_pg_cart_btn_bg"
             android:drawableRight="@drawable/ic_arrow_forward_black"
-            android:layout_marginLeft="50dp"
             android:text="BID"
-            android:layout_toRightOf="@+id/btnAdd"
+            android:textColor="@color/white"
             android:layout_alignParentRight="true"
-            android:fontFamily="@font/rubik_medium" />
+            android:fontFamily="@font/rubik_medium"
+            android:layout_alignParentEnd="true" />
         </RelativeLayout>
         </RelativeLayout>
 
     <ImageView
         android:id="@+id/imgItem"
-        android:layout_width="256dp"
+        android:layout_width="356dp"
         android:layout_height="350dp"
         android:layout_marginTop="16dp"
-        android:adjustViewBounds="true"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"
         android:transitionName="image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/prod"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

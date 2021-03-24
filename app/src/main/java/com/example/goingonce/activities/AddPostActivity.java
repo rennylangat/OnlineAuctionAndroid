@@ -165,7 +165,7 @@ public class AddPostActivity extends AppCompatActivity {
                         String downloadUrl=downloadUri.toString();
 
                         DatabaseReference newPost=mRef.push();
-                        String itemKey=FirebaseDatabase.getInstance().getReference().getKey();
+                        String itemKey=newPost.getKey();
                         newPost.child("itemID").setValue(itemKey);
                         newPost.child("itemName").setValue(itemName);
                         newPost.child("type").setValue(type);
