@@ -51,6 +51,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Type"
+            android:id="@+id/type"
+            android:textSize="15sp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColorLink="#69a2ff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/base_bid"
             android:id="@+id/base_bid"
             android:textSize="15sp"
@@ -67,7 +78,7 @@
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:id="@+id/start_time"/>
+            android:id="@+id/location"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,28 +1,29 @@
 package com.example.goingonce.models;
 
 public class ItemDets {
-    private String itemId,itemName,description,baseBid,startTime,endTime,imageUrl;
+    private String itemID,itemName,description,type,baseBid,location,endTime,imageUrl;
 
     public ItemDets(){
 
     }
 
-    public ItemDets(String itemId,String itemName, String description, String baseBid, String startTime, String endTime, String imageUrl) {
-        this.itemId=itemId;
+    public ItemDets(String itemID,String itemName, String description,String type, String baseBid, String location, String endTime, String imageUrl) {
+        this.itemID=itemID;
         this.itemName = itemName;
         this.description = description;
+        this.type=type;
         this.baseBid = baseBid;
-        this.startTime = startTime;
+        this.location = location;
         this.endTime = endTime;
         this.imageUrl = imageUrl;
     }
 
-    public String getItemId(){
-        return itemId;
+    public String getItemID(){
+        return itemID;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
     }
 
     public String getItemName() {
@@ -49,12 +50,12 @@ public class ItemDets {
         this.baseBid = baseBid;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getLocation() {
+        return location;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getEndTime() {
@@ -73,13 +74,22 @@ public class ItemDets {
         this.imageUrl = imageUrl;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "ItemDets{" +
                 "itemName='" + itemName + '\'' +
                 ", description='" + description + '\'' +
+                ", type='" + type + '\'' +
                 ", baseBid='" + baseBid + '\'' +
-                ", startTime='" + startTime + '\'' +
+                ", location='" + location + '\'' +
                 ", endTime='" + endTime + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';

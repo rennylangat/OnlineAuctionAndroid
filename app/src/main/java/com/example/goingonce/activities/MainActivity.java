@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder{
-        TextView itemName,itemDesc,baseBid,startTime,endTime;
+        TextView itemName,itemDesc,type,baseBid,location,endTime;
         ImageView imageView;
         Button bidBtn;
         boolean didBid;
@@ -225,8 +225,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super(itemView);
             itemName=itemView.findViewById(R.id.item_name);
             itemDesc = itemView.findViewById(R.id.description);
+            type=itemView.findViewById(R.id.type);
             baseBid = itemView.findViewById(R.id.base_bid);
-            startTime = itemView.findViewById(R.id.start_time);
+            location = itemView.findViewById(R.id.location);
             endTime = itemView.findViewById(R.id.end_time);
             imageView = itemView.findViewById(R.id.image_view);
             bidBtn = itemView.findViewById(R.id.placeBid);

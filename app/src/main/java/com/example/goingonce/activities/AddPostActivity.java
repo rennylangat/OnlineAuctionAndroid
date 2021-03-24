@@ -27,6 +27,7 @@ import com.example.goingonce.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -39,13 +40,14 @@ import java.util.Calendar;
 public class AddPostActivity extends AppCompatActivity {
 
     private ImageButton imgBtn;
-    private EditText itmName,itmDesc,itmBaseBid,location,itmEndTime;
+    private EditText itmName,itmDesc,itmBaseBid,itemLocation,itmEndTime;
     private AutoCompleteTextView itemType;
     private Button submitBtn;
     private Context mContext=AddPostActivity.this;
     private Uri imgUri;
     private StorageReference mStorageRef;
     private DatabaseReference mRef;
+    private String uID;
 
     private static final int GALLERY_REQUEST=1;
 
@@ -58,11 +60,12 @@ public class AddPostActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(Color.BLACK);
 
+        uID= FirebaseAuth.getInstance().getCurrentUser().getUid();
         imgBtn=(ImageButton)findViewById(R.id.imgBtn);
         itmName=findViewById(R.id.edit_item_name);
         itmDesc=findViewById(R.id.edit_desc);
         itmBaseBid=findViewById(R.id.edit_base_bid);
-        location=findViewById(R.id.edit_location);
+        itemLocation=findViewById(R.id.edit_location);
         itmEndTime=findViewById(R.id.edit_end_time);
         submitBtn=findViewById(R.id.submitBtn);
         itemType=findViewById(R.id.edit_item_type);
@@ -109,9 +112,10 @@ public class AddPostActivity extends AppCompatActivity {
                 final String itemName=itmName.getText().toString();
                 final String itemDesc=itmDesc.getText().toString();
                 final String baseBid=itmBaseBid.getText().toString();
-                final String startTime=location.getText().toString();
+                final String type=itemType.getText().toString();
+                final String location=itemLocation.getText().toString();
                 final String endTime=itmEndTime.getText().toString();
-                publishPost(itemName,itemDesc,baseBid,startTime,endTime);
+                publishPost(itemName,type,itemDesc,baseBid,location,endTime);
             }
         });
     }
@@ -137,9 +141,9 @@ public class AddPostActivity extends AppCompatActivity {
         }
     }
 
-    private void publishPost(String itemName,String itemDesc,String baseBid,String startTime,String endTime) {
+    private void publishPost(String itemName,String type,String itemDesc,String baseBid,String location,String endTime) {
         Toast.makeText(getApplicationContext(),itemName,Toast.LENGTH_SHORT).show();
-        if (!itemName.isEmpty() && !itemDesc.isEmpty() && !baseBid.isEmpty() && !startTime.isEmpty()
+        if (!itemName.isEmpty() &&!itemType.getText().toString().matches("") && !itemDesc.isEmpty() && !baseBid.isEmpty() && !location.isEmpty()
         && !endTime.isEmpty()){
             final StorageReference filePath=mStorageRef.child("AuctionImages").child(imgUri.getLastPathSegment());
 
@@ -161,10 +165,13 @@ public class AddPostActivity extends AppCompatActivity {
                         String downloadUrl=downloadUri.toString();
 
                         DatabaseReference newPost=mRef.push();
+                        String itemKey=FirebaseDatabase.getInstance().getReference().getKey();
+                        newPost.child("itemID").setValue(itemKey);
                         newPost.child("itemName").setValue(itemName);
+                        newPost.child("type").setValue(type);
                         newPost.child("description").setValue(itemDesc);
                         newPost.child("baseBid").setValue(baseBid);
-                        newPost.child("startTime").setValue(startTime);
+                        newPost.child("location").setValue(location);
                         newPost.child("endTime").setValue(endTime);
                         newPost.child("imageUrl").setValue(downloadUrl);
 
