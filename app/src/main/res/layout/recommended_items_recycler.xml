@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="230dp"
+    android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="16dp"
+    android:background="@drawable/recycler_bg">
+
+    <ImageView
+        android:id="@+id/recommendImg"
+        android:layout_width="0dp"
+        android:layout_height="210dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/popular1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/itemRecommName"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/rubik_bold"
+        android:text="Shoes"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recommendImg"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgView3"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/itemRecommName"
+        app:layout_constraintTop_toBottomOf="@+id/itemRecommName"
+        android:src="@drawable/ic_mdi_star_rate"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:text="4.5"
+        android:textColor="#333333"
+        android:textSize="10sp"
+        android:fontFamily="@font/rubik_medium"
+        app:layout_constraintBottom_toBottomOf="@id/imgView3"
+        app:layout_constraintStart_toEndOf="@+id/imgView3"
+        app:layout_constraintTop_toTopOf="@id/imgView3"/>
+
+    <TextView
+        android:id="@+id/recommended_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/rubik_bold"
+        android:text="K 160"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/reccDeliveryTime"
+        android:layout_width="39dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/time_bg"
+        android:gravity="center"
+        android:text="45 mins"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/imgView3"
+        app:layout_constraintTop_toBottomOf="@id/imgView3"/>
+
+    <TextView
+        android:id="@+id/delivery_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="Free Delivery"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/reccDeliveryTime"
+        app:layout_constraintStart_toEndOf="@id/reccDeliveryTime"
+        app:layout_constraintTop_toTopOf="@id/reccDeliveryTime"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

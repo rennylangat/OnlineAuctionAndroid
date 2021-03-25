@@ -30,11 +30,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.goingonce.Adapters.PopularAdapter;
 import com.example.goingonce.Adapters.PostsAdapter;
 import com.example.goingonce.Auth.LoginActivity;
 import com.example.goingonce.R;
 import com.example.goingonce.Settings.SettingsActivity;
 import com.example.goingonce.models.ItemDets;
+import com.example.goingonce.models.PopularItems;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Button btnEnterBid;
     private Dialog mDialog;
-    private TextView txtLoading;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Context mContext=MainActivity.this;
     private Locale currLocale;
 
+    private RecyclerView popularRecycler;
+    private PopularAdapter popularAdapter;
+    private ArrayList<PopularItems> popularItemsArrayList;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         currLocale=getResources().getConfiguration().locale;
 
 
+        popularItemsArrayList=new ArrayList<PopularItems>();
         mFirebaseAuth=FirebaseAuth.getInstance();
 
         if (mFirebaseAuth.getCurrentUser()==null){
@@ -108,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout=findViewById(R.id.drawer);
         navigationView=findViewById(R.id.nav_view);
         progressBar=findViewById(R.id.progressBarHome);
-        txtLoading=findViewById(R.id.txtLoading);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -117,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //Popular Items Recycler
+
+        //All Items Recycler
         recyclerView=(RecyclerView)findViewById(R.id.recycler_view_home);
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
@@ -130,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     progressBar.setVisibility(View.INVISIBLE);
-                    txtLoading.setVisibility(View.INVISIBLE);
 
                     for (DataSnapshot ds1:snapshot.getChildren()){
 
@@ -138,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             ItemDets dets=ds1.getValue(ItemDets.class);
                             itemDets.add(dets);
                             progressBar.setVisibility(View.INVISIBLE);
-                            txtLoading.setVisibility(View.INVISIBLE);
 
                         }catch (Exception e){
                             Toast.makeText(mContext,e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -152,25 +157,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }else{
                     Toast.makeText(getApplicationContext(),"No Bids Posted Yet",Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
-                    txtLoading.setText("No Bids Available");
                 }
 
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(mContext,"Error connecting to Dbase",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mDatabaseReference.child("Popular").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    for (DataSnapshot snapshot1:snapshot.getChildren()){
+                        PopularItems items=snapshot1.getValue(PopularItems.class);
+                        popularItemsArrayList.add(items);
+                        getPopularData(popularItemsArrayList);
+                    }
+                }else {
+                    Toast.makeText(mContext,"No Popular Items",Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(mContext,"Error connecting to Dbase",Toast.LENGTH_SHORT).show();
 
             }
         });
 
     }
-
+    private void getPopularData(ArrayList<PopularItems> popularItems){
+        popularRecycler=findViewById(R.id.popular_recycler);
+        popularAdapter=new PopularAdapter(mContext,popularItems);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
+        popularRecycler.setLayoutManager(layoutManager);
+        popularRecycler.setAdapter(popularAdapter);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @Override
