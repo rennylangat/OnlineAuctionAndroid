@@ -39,10 +39,11 @@
         android:src="@drawable/ic_mdi_star_rate"/>
 
     <TextView
+        android:id="@+id/itemType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
-        android:text="4.5"
+        android:text="Cars"
         android:textColor="#333333"
         android:textSize="10sp"
         android:fontFamily="@font/rubik_medium"
@@ -51,7 +52,7 @@
         app:layout_constraintTop_toTopOf="@id/imgView3"/>
 
     <TextView
-        android:id="@+id/recommended_price"
+        android:id="@+id/recommendedPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"

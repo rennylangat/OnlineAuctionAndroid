@@ -32,11 +32,13 @@ import android.widget.Toast;
 
 import com.example.goingonce.Adapters.PopularAdapter;
 import com.example.goingonce.Adapters.PostsAdapter;
+import com.example.goingonce.Adapters.RecommendedAdapter;
 import com.example.goingonce.Auth.LoginActivity;
 import com.example.goingonce.R;
 import com.example.goingonce.Settings.SettingsActivity;
 import com.example.goingonce.models.ItemDets;
 import com.example.goingonce.models.PopularItems;
+import com.example.goingonce.models.RecommendedItems;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
@@ -74,14 +76,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button btnEnterBid;
     private Dialog mDialog;
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,popularRecycler,recRecycler;
     private RecyclerView.Adapter mAdapter;
     private PostsAdapter postAdapter;
     private ArrayList<ItemDets> itemDets;
     private Context mContext=MainActivity.this;
     private Locale currLocale;
 
-    private RecyclerView popularRecycler;
+    private RecommendedAdapter recAdapter;
+    private ArrayList<RecommendedItems> recommendedItems;
     private PopularAdapter popularAdapter;
     private ArrayList<PopularItems> popularItemsArrayList;
 
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         popularItemsArrayList=new ArrayList<PopularItems>();
+        recommendedItems=new ArrayList<RecommendedItems>();
         mFirebaseAuth=FirebaseAuth.getInstance();
 
         if (mFirebaseAuth.getCurrentUser()==null){
@@ -186,7 +190,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        mDatabaseReference.child("Recommended").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    for (DataSnapshot snapshot1:snapshot.getChildren()){
+                        RecommendedItems recitems=snapshot1.getValue(RecommendedItems.class);
+                        recommendedItems.add(recitems);
+                        getRecommendedData(recommendedItems);
+                    }
+                }else {
+                    Toast.makeText(mContext,"No Recommended Items",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
+
+    private void getRecommendedData(ArrayList<RecommendedItems> recommendedItemsArrayList) {
+        recRecycler=findViewById(R.id.recycler_view_recommended);
+        recAdapter=new RecommendedAdapter(mContext,recommendedItemsArrayList);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
+        recRecycler.setLayoutManager(layoutManager);
+        recRecycler.setAdapter(recAdapter);
+    }
+
     private void getPopularData(ArrayList<PopularItems> popularItems){
         popularRecycler=findViewById(R.id.popular_recycler);
         popularAdapter=new PopularAdapter(mContext,popularItems);
