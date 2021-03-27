@@ -4,14 +4,43 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/home"
+            android:title="Home"
+            android:icon="@drawable/ic_home"/>
+
         <item
             android:id="@+id/add"
             android:title="Add Item"
             android:icon="@drawable/ic_add_circle_black_24dp"/>
 
         <item
+            android:id="@+id/editItem"
+            android:title="Edit Item"
+            android:icon="@drawable/ic_edit_item"/>
+        <item
+            android:id="@+id/myBids"
+            android:title="My Bids"
+            android:icon="@drawable/ic_mybids"/>
+
+        <item
+            android:id="@+id/wallet"
+            android:title="My Wallet"
+            android:icon="@drawable/ic_wallet"/>
+    </group>
+
+    <item android:title="Miscellaneous">
+
+        <menu>
+        <item
+            android:id="@+id/settings"
+            android:title="Settings"
+            android:icon="@drawable/ic_settings"/>
+        <item
             android:id="@+id/logout"
             android:title="Logout"
             android:icon="@drawable/ic_exit_to_app_black_24dp"/>
-    </group>
+        </menu>
+    </item>
 </menu>

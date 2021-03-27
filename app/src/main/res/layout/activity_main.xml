@@ -7,57 +7,115 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarFadeDuration="9000">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ProgressBar
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:foregroundGravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:id="@+id/progressBarHome"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="16dp"
+            android:background="@drawable/search_bg"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingLeft="16dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Search..."
+            android:id="@+id/search"
+            android:drawableLeft="@drawable/ic_search" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Loading Bids..."
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:id="@+id/txtLoading"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/progressBarHome"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/linear_lay_home"
-        android:padding="8dp"
-        tools:context=".activities.MainActivity"
-        android:orientation="vertical">
-
+            android:text="Popular This Week"
+            android:layout_below="@+id/search"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/txtPopular"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtPopular"
+            android:background="#54CDCDF3"
+            android:id="@+id/popular_recycler" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recommended For You"
+            android:layout_below="@+id/popular_recycler"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:id="@+id/recommendTxt"
+            android:fontFamily="@font/rubik_bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recycler_view_home">
+            android:id="@+id/linear_lay_home"
+            android:padding="8dp"
+            android:layout_below="@+id/recommendTxt"
+            tools:context=".activities.MainActivity"
+            android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view_recommended">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+        <TextView
+            android:id="@+id/availTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available Items"
+            android:layout_below="@+id/linear_lay_home"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:fontFamily="@font/rubik_bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycler_view_home"
+            android:layout_below="@id/availTxt">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-
-    </LinearLayout>
     </RelativeLayout>
+    </ScrollView>
+
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/nav_view"
         app:headerLayout="@layout/header"
         android:background="@color/white"
-        app:itemTextColor="#A9A9A9"
-        app:itemIconTint="#A9A9A9"
+        app:itemTextColor="#000000"
+        app:itemIconTint="@color/design_default_color_primary_dark"
         app:menu="@menu/drawermenu"
         android:layout_gravity="start">
 
     </com.google.android.material.navigation.NavigationView>
-
-
 </androidx.drawerlayout.widget.DrawerLayout>

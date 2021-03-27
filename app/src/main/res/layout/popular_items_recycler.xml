@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="16dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="90dp"
+        android:layout_height="80dp"
+        app:civ_border_color="?android:attr/colorActivatedHighlight"
+        app:civ_border_width="1.3dp"
+        app:civ_border_overlay="true"
+        android:layout_weight="1"
+        android:id="@+id/all_menu_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/popular1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Name"
+        android:layout_marginTop="5dp"
+        android:id="@+id/popularItemName"
+        android:fontFamily="@font/rubik_bold"
+        android:textColor="#333333"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/all_menu_image"
+        app:layout_constraintStart_toStartOf="@+id/all_menu_image"
+        app:layout_constraintTop_toBottomOf="@id/all_menu_image"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.goingonce.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -11,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -25,10 +30,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.goingonce.Adapters.PopularAdapter;
 import com.example.goingonce.Adapters.PostsAdapter;
+import com.example.goingonce.Adapters.RecommendedAdapter;
 import com.example.goingonce.Auth.LoginActivity;
 import com.example.goingonce.R;
+import com.example.goingonce.Settings.SettingsActivity;
 import com.example.goingonce.models.ItemDets;
+import com.example.goingonce.models.PopularItems;
+import com.example.goingonce.models.RecommendedItems;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
@@ -65,20 +75,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Button btnEnterBid;
     private Dialog mDialog;
-    private TextView txtLoading;
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,popularRecycler,recRecycler;
     private RecyclerView.Adapter mAdapter;
     private PostsAdapter postAdapter;
     private ArrayList<ItemDets> itemDets;
     private Context mContext=MainActivity.this;
+    private Locale currLocale;
 
+    private RecommendedAdapter recAdapter;
+    private ArrayList<RecommendedItems> recommendedItems;
+    private PopularAdapter popularAdapter;
+    private ArrayList<PopularItems> popularItemsArrayList;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getWindow().setStatusBarColor(Color.BLACK);
+        currLocale=getResources().getConfiguration().locale;
+
+
+        popularItemsArrayList=new ArrayList<PopularItems>();
+        recommendedItems=new ArrayList<RecommendedItems>();
         mFirebaseAuth=FirebaseAuth.getInstance();
 
         if (mFirebaseAuth.getCurrentUser()==null){
@@ -96,15 +117,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout=findViewById(R.id.drawer);
         navigationView=findViewById(R.id.nav_view);
         progressBar=findViewById(R.id.progressBarHome);
-        txtLoading=findViewById(R.id.txtLoading);
 
         navigationView.setNavigationItemSelectedListener(this);
 
         mDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        //Magic Trick to hide sensitive info lol
+
+        View header=navigationView.getHeaderView(0);
+        String mail=mFirebaseAuth.getCurrentUser().getEmail();
+        TextView txtMail=header.findViewById(R.id.usrMail);
+        String usrName=mail.substring(0,mail.indexOf("@"));
+        String domainName=mail.substring(mail.indexOf("@"));
+        int len=usrName.length();
+        if (len<4){
+            Toast.makeText(mContext,"Full mail will be displayed",Toast.LENGTH_SHORT).show();
+        }
+        txtMail.setText(usrName.substring(0,len-4)+"****"+domainName);
         mDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        //All Items Recycler
         recyclerView=(RecyclerView)findViewById(R.id.recycler_view_home);
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
@@ -118,14 +153,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     progressBar.setVisibility(View.INVISIBLE);
-                    txtLoading.setVisibility(View.INVISIBLE);
 
                     for (DataSnapshot ds1:snapshot.getChildren()){
+
                         try {
                             ItemDets dets=ds1.getValue(ItemDets.class);
                             itemDets.add(dets);
                             progressBar.setVisibility(View.INVISIBLE);
-                            txtLoading.setVisibility(View.INVISIBLE);
 
                         }catch (Exception e){
                             Toast.makeText(mContext,e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -139,103 +173,80 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }else{
                     Toast.makeText(getApplicationContext(),"No Bids Posted Yet",Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
-                    txtLoading.setText("No Bids Available");
                 }
 
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(mContext,"Error connecting to Dbase",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Popular Items Recycler Setup
+
+        mDatabaseReference.child("Popular").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    for (DataSnapshot snapshot1:snapshot.getChildren()){
+                        PopularItems items=snapshot1.getValue(PopularItems.class);
+                        popularItemsArrayList.add(items);
+                        getPopularData(popularItemsArrayList);
+                    }
+                }else {
+                    Toast.makeText(mContext,"No Popular Items",Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(mContext,"Error connecting to Dbase",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        //Recommended Items Recycler
+
+        mDatabaseReference.child("Recommended").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    for (DataSnapshot snapshot1:snapshot.getChildren()){
+                        RecommendedItems recitems=snapshot1.getValue(RecommendedItems.class);
+                        recommendedItems.add(recitems);
+                        getRecommendedData(recommendedItems);
+                    }
+                }else {
+                    Toast.makeText(mContext,"No Recommended Items",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
     }
 
+    private void getRecommendedData(ArrayList<RecommendedItems> recommendedItemsArrayList) {
+        recRecycler=findViewById(R.id.recycler_view_recommended);
+        recAdapter=new RecommendedAdapter(mContext,recommendedItemsArrayList);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
+        recRecycler.setLayoutManager(layoutManager);
+        recRecycler.setAdapter(recAdapter);
+    }
 
-//Method Moved to Adapter Class
-
-/*    public void AlertDialog(final PostViewHolder holder){
-        mDialog=new Dialog(MainActivity.this);
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.setContentView(R.layout.bid_dialog);
-        mDialog.setTitle("Bid");
-
-        btnEnterBid=mDialog.findViewById(R.id.btnBidDiag);
-        final EditText editBidAmt=mDialog.findViewById(R.id.editEnterBid);
-
-        btnEnterBid.setEnabled(true);
-
-        btnEnterBid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!editBidAmt.getText().toString().isEmpty()){
-                    holder.bidAmt=editBidAmt.getText().toString().trim();
-                    holder.didBid=true;
-                    Toast.makeText(getApplicationContext(),"Your Bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                    mDialog.dismiss();
-                }
-            }
-        });
-
-        mDialog.show();
-
-    }*/
+    private void getPopularData(ArrayList<PopularItems> popularItems){
+        popularRecycler=findViewById(R.id.popular_recycler);
+        popularAdapter=new PopularAdapter(mContext,popularItems);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
+        popularRecycler.setLayoutManager(layoutManager);
+        popularRecycler.setAdapter(popularAdapter);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        //Method Moved to Adapter class. Can be Uncommented to check out
-
-
-        /*txtLoading.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.bringToFront();
-        recyclerView.setVisibility(View.GONE);
-
-        FirebaseRecyclerOptions<ItemDets> options=new FirebaseRecyclerOptions.Builder<ItemDets>().setQuery(
-                mDatabaseReference,ItemDets.class
-        ).build();
-
-        mAdapter=new FirebaseRecyclerAdapter<ItemDets, PostViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull ItemDets model) {
-                holder.itemName.setText(itemDets.get(position).getItemName());
-                holder.itemDesc.setText(itemDets.get(position).getDescription());
-                holder.baseBid.setText("Base Bid: Ksh."+itemDets.get(position).getBaseBid());
-                holder.startTime.setText("Start Time: "+itemDets.get(position).getStartTime());
-                holder.endTime.setText("End Time: "+itemDets.get(position).getEndTime());
-
-                Picasso.get().load(itemDets.get(position).getImageUrl()).into(holder.imageView);
-
-                holder.bidBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!holder.didBid){
-                            AlertDialog(holder);
-                        }else{
-                            Toast.makeText(mContext,"Your bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view= LayoutInflater.from(mContext).inflate(R.layout.single_item_layout,parent,false);
-                return new PostViewHolder(view);
-            }
-        };
-
-        mAdapter.startListening();
-        recyclerView.setAdapter(mAdapter);
-
-        txtLoading.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);*/
     }
 
     @Override
@@ -262,6 +273,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(mContext, LoginActivity.class));
             finish();
+        }else if (id==R.id.editItem){
+            startActivity(new Intent(mContext,EditItemActivity.class));
+        }else if (id==R.id.settings){
+            startActivity(new Intent(mContext, SettingsActivity.class));
+        }else if (id==R.id.myBids){
+            startActivity(new Intent(mContext,MyBids.class));
         }
 
         DrawerLayout drawerLayout=findViewById(R.id.drawer);
@@ -278,26 +295,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //super.onBackPressed();
     }
 
-    public static class PostViewHolder extends RecyclerView.ViewHolder{
-        TextView itemName,itemDesc,baseBid,startTime,endTime;
-        ImageView imageView;
-        Button bidBtn;
-        boolean didBid;
-        String bidAmt;
-
-        public PostViewHolder(@NonNull View itemView) {
-            super(itemView);
-            itemName=itemView.findViewById(R.id.item_name);
-            itemDesc = itemView.findViewById(R.id.description);
-            baseBid = itemView.findViewById(R.id.base_bid);
-            startTime = itemView.findViewById(R.id.start_time);
-            endTime = itemView.findViewById(R.id.end_time);
-            imageView = itemView.findViewById(R.id.image_view);
-            bidBtn = itemView.findViewById(R.id.placeBid);
-            didBid=false;
-            bidAmt="";
-        }
-    }
     private String getDateTime() {
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
@@ -306,6 +303,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Locale locale = getLocale(this);
 
+        if (!locale.equals(currLocale)) {
 
+            currLocale = locale;
+            recreate();
+        }
+    }
+
+    public static Locale getLocale(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String lang = sharedPreferences.getString("language", "en");
+        switch (lang) {
+            case "English":
+                lang = "en";
+                break;
+            case "Spanish":
+                lang = "es";
+                break;
+        }
+        return new Locale(lang);
+    }
 }
