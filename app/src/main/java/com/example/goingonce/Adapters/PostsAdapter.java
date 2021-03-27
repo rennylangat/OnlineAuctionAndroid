@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goingonce.R;
@@ -59,7 +60,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
 
 
         holder.txtitemName.setText(itemName);
-        holder.txtitemDesc.setText(description);
         holder.txtbaseBid.setText(baseBid);
         holder.txtLocation.setText(location);
         holder.txtendTime.setText(endTime);
@@ -118,8 +118,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        LinearLayout view;
-        TextView txtitemName,txtitemDesc,txtType,txtbaseBid,txtLocation,txtendTime;
+        ConstraintLayout view;
+        TextView txtitemName,txtType,txtbaseBid,txtLocation,txtendTime;
         ImageView imageView;
         Button bidBtn;
         boolean didBid;
@@ -127,9 +127,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            view=(LinearLayout)itemView.findViewById(R.id.view);
+            view=(ConstraintLayout) itemView.findViewById(R.id.view);
             txtitemName=(TextView)itemView.findViewById(R.id.item_name);
-            txtitemDesc =(TextView) itemView.findViewById(R.id.description);
             txtType=itemView.findViewById(R.id.type);
             txtbaseBid = (TextView) itemView.findViewById(R.id.base_bid);
             txtLocation = (TextView) itemView.findViewById(R.id.location);

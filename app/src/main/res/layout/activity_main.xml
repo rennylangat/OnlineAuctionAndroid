@@ -95,7 +95,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recycler_view_home">
+            android:id="@+id/recycler_view_recommended">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
@@ -113,6 +113,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/recycler_view_home"
             android:layout_below="@id/availTxt">
 
         </androidx.recyclerview.widget.RecyclerView>
