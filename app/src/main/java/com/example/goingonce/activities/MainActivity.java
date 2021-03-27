@@ -122,10 +122,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        //Magic Trick to hide sensitive info lol
+
+        View header=navigationView.getHeaderView(0);
+        String mail=mFirebaseAuth.getCurrentUser().getEmail();
+        TextView txtMail=header.findViewById(R.id.usrMail);
+        String usrName=mail.substring(0,mail.indexOf("@"));
+        String domainName=mail.substring(mail.indexOf("@"));
+        int len=usrName.length();
+        if (len<4){
+            Toast.makeText(mContext,"Full mail will be displayed",Toast.LENGTH_SHORT).show();
+        }
+        txtMail.setText(usrName.substring(0,len-4)+"****"+domainName);
         mDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //Popular Items Recycler
 
         //All Items Recycler
         recyclerView=(RecyclerView)findViewById(R.id.recycler_view_home);
@@ -170,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        //Popular Items Recycler Setup
+
         mDatabaseReference.child("Popular").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -189,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+        //Recommended Items Recycler
 
         mDatabaseReference.child("Recommended").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -279,27 +295,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //super.onBackPressed();
     }
 
-    public static class PostViewHolder extends RecyclerView.ViewHolder{
-        TextView itemName,itemDesc,type,baseBid,location,endTime;
-        ImageView imageView;
-        Button bidBtn;
-        boolean didBid;
-        String bidAmt;
-
-        public PostViewHolder(@NonNull View itemView) {
-            super(itemView);
-            itemName=itemView.findViewById(R.id.item_name);
-            itemDesc = itemView.findViewById(R.id.description);
-            type=itemView.findViewById(R.id.type);
-            baseBid = itemView.findViewById(R.id.base_bid);
-            location = itemView.findViewById(R.id.location);
-            endTime = itemView.findViewById(R.id.end_time);
-            imageView = itemView.findViewById(R.id.image_view);
-            bidBtn = itemView.findViewById(R.id.placeBid);
-            didBid=false;
-            bidAmt="";
-        }
-    }
     private String getDateTime() {
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
