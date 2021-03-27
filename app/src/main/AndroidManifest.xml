@@ -16,6 +16,11 @@
         <activity android:name=".activities.EditItemActivity">
 
         </activity>
+
+        <activity android:name=".activities.PaymentActivity">
+
+
+        </activity>
         <activity android:name=".activities.AddPostActivity">
 
         </activity>
@@ -29,6 +34,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

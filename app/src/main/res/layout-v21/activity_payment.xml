@@ -10,20 +10,28 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/card1_bg">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/card1_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="30dp"
             android:elevation="5dp"
-            android:background="@drawable/card2_bg"
             app:cardCornerRadius="50dp">
+            <ImageView
+                android:src="@drawable/card2_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,8 +42,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
@@ -49,20 +56,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
                             android:text="@string/current_balance"
-                            android:textSize="18sp" />
+                            android:textSize="15sp" />
 
                         <TextView
                             android:id="@+id/valTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="10dp"
                             android:text="@string/_32_87"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -71,7 +76,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="100dp"
-                        android:layout_marginLeft="100dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -80,16 +84,17 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="@string/ksh"
-                            android:textSize="18sp" />
+                            android:textSize="15sp" />
 
                         <Button
                             android:id="@+id/percentTV"
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="10dp"
                             android:background="@drawable/ksh_bt"
+                            android:layout_marginEnd="5dp"
                             android:text="@string/_3_5"
-                            android:textSize="18sp" />
+                            android:textSize="12sp" />
                     </LinearLayout>
 
 
@@ -99,8 +104,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="40dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
@@ -109,7 +112,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="40dp"
                         android:text="@string/_0_243232_btc" />
 
@@ -118,7 +120,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="140dp"
-                        android:layout_marginLeft="140dp"
                         android:layout_marginTop="40dp"
                         android:src="@drawable/ic_baseline_add_24"
                         app:rippleColor="#AD1457" />
@@ -132,23 +133,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp">
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp">
 
         <Button
             android:id="@+id/depositTV"
-            android:layout_width="170dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/pay_buttons"
             android:text="@string/deposit" />
 
         <Button
             android:id="@+id/withdrawTV"
-            android:layout_width="170dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="20dp"
             android:background="@drawable/pay_buttons"
             android:text="@string/withdraw" />
     </LinearLayout>
@@ -158,8 +157,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
         android:text="@string/recent_transactions"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView

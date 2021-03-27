@@ -8,20 +8,30 @@
     tools:context=".activities.PaymentActivity">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/card1_bg">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/card1_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="50dp"
-            android:background="@drawable/card2_bg"
+            android:layout_marginBottom="30dp"
             android:elevation="5dp"
             app:cardCornerRadius="50dp">
+            <ImageView
+                android:src="@drawable/card2_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,10 +42,10 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -43,23 +53,25 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/balTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
                             android:text="@string/current_balance"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            android:layout_marginLeft="10dp" />
 
                         <TextView
+                            android:id="@+id/valTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="15dp"
                             android:text="@string/_32_87"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:layout_marginLeft="10dp" />
                     </LinearLayout>
 
 
@@ -67,10 +79,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="100dp"
-                        android:layout_marginLeft="100dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginLeft="100dp">
 
                         <TextView
+                            android:id="@+id/kshTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -78,12 +91,15 @@
                             android:textSize="18sp" />
 
                         <Button
-                            android:layout_width="wrap_content"
+                            android:id="@+id/percentTV"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:text="@string/_3_5"
+                            android:layout_marginTop="15dp"
                             android:background="@drawable/ksh_bt"
-                            android:textSize="18sp" />
+                            android:layout_marginEnd="5dp"
+                            android:text="@string/_3_5"
+                            android:textSize="10sp"
+                            android:layout_marginRight="5dp" />
                     </LinearLayout>
 
 
@@ -92,27 +108,30 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp">
 
                     <TextView
+                        android:id="@+id/numberTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="40dp"
-                        android:text="@string/_0_243232_btc" />
+                        android:text="@string/_0_243232_btc"
+                        android:layout_marginLeft="20dp" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="140dp"
-                        android:layout_marginLeft="140dp"
                         android:layout_marginTop="40dp"
-                        app:rippleColor="#ff0000" />
+                        android:src="@drawable/ic_baseline_add_24"
+                        app:rippleColor="#AD1457"
+                        android:layout_marginLeft="140dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -123,35 +142,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp">
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp">
 
         <Button
-            android:layout_width="170dp"
+            android:id="@+id/depositTV"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/pay_buttons"
-            android:text="@string/deposit"/>
+            android:text="@string/deposit" />
 
         <Button
-            android:layout_width="170dp"
+            android:id="@+id/withdrawTV"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:background="@drawable/pay_buttons"
-            android:text="@string/withdraw"/>
+            android:text="@string/withdraw"
+            android:layout_marginLeft="20dp" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/transactTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
         android:text="@string/recent_transactions"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp" />
 </LinearLayout>
