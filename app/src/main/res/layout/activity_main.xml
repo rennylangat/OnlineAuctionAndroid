@@ -7,20 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/nav_view"
-        app:headerLayout="@layout/header"
-        android:background="@color/white"
-        app:itemTextColor="#000000"
-        app:itemIconTint="@color/design_default_color_primary_dark"
-        app:menu="@menu/drawermenu"
-        android:layout_gravity="start">
-
-    </com.google.android.material.navigation.NavigationView>
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,7 +21,6 @@
             android:layout_height="64dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="10dp"
             android:id="@+id/progressBarHome"/>
 
         <EditText
@@ -44,12 +29,12 @@
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="16dp"
             android:background="@drawable/search_bg"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:paddingLeft="16dp"
             android:inputType="text"
             android:singleLine="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:hint="Search..."
             android:id="@+id/search"
@@ -64,13 +49,14 @@
             android:textSize="18sp"
             android:textColor="#333333"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="4dp"
             android:id="@+id/txtPopular"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtPopular"
+            android:background="#54CDCDF3"
             android:id="@+id/popular_recycler" />
 
         <TextView
@@ -82,7 +68,7 @@
             android:textColor="#333333"
             android:id="@+id/recommendTxt"
             android:fontFamily="@font/rubik_bold"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="16dp"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,7 +94,7 @@
             android:textSize="18sp"
             android:textColor="#333333"
             android:fontFamily="@font/rubik_bold"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="16dp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -119,4 +105,17 @@
         </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
     </ScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_view"
+        app:headerLayout="@layout/header"
+        android:background="@color/white"
+        app:itemTextColor="#000000"
+        app:itemIconTint="@color/design_default_color_primary_dark"
+        app:menu="@menu/drawermenu"
+        android:layout_gravity="start">
+
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -10,6 +10,9 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="90dp"
         android:layout_height="80dp"
+        app:civ_border_color="?android:attr/colorActivatedHighlight"
+        app:civ_border_width="1.3dp"
+        app:civ_border_overlay="true"
         android:layout_weight="1"
         android:id="@+id/all_menu_image"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Item Name"
+        android:layout_marginTop="5dp"
         android:id="@+id/popularItemName"
         android:fontFamily="@font/rubik_bold"
         android:textColor="#333333"

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goingonce.R;
@@ -52,22 +53,21 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull PostsAdapter.MyViewHolder holder, int position) {
         final String postID=itemDets.get(position).getItemID();
         final String itemName=itemDets.get(position).getItemName();
-        final String description=itemDets.get(position).getDescription();
         final String type=itemDets.get(position).getType();
         final String baseBid=itemDets.get(position).getBaseBid();
         final String location=itemDets.get(position).getLocation();
         final String endTime=itemDets.get(position).getEndTime();
 
 
-        holder.txtitemName.setText(itemName);
-        holder.txtbaseBid.setText(baseBid);
+        holder.txtItemName.setText(itemName);
+        holder.txtbaseBid.setText("Ksh "+baseBid);
         holder.txtLocation.setText(location);
         holder.txtendTime.setText(endTime);
         holder.txtType.setText(type);
 
         Picasso.get().load(itemDets.get(position).getImageUrl()).into(holder.imageView);
 
-        holder.bidBtn.setOnClickListener(new View.OnClickListener() {
+        holder.txtbaseBid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext,ViewItem.class);
@@ -86,31 +86,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
         });
     }
 
-/*    private void createDialog(MyViewHolder holder) {
-        mDialog=new Dialog(mContext);
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.setContentView(R.layout.bid_dialog);
-        mDialog.setTitle("Bid");
-
-        btnEnterBid=mDialog.findViewById(R.id.btnBidDiag);
-        final EditText editBidAmt=mDialog.findViewById(R.id.editEnterBid);
-
-        btnEnterBid.setEnabled(true);
-
-        btnEnterBid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!editBidAmt.getText().toString().isEmpty()){
-                    holder.bidAmt=editBidAmt.getText().toString().trim();
-                    holder.didBid=true;
-                    Toast.makeText(mContext,"Your Bid is: "+holder.bidAmt,Toast.LENGTH_SHORT).show();
-                    mDialog.dismiss();
-                }
-            }
-        });
-
-        mDialog.show();
-    }*/
 
     @Override
     public int getItemCount() {
@@ -118,24 +93,20 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        ConstraintLayout view;
-        TextView txtitemName,txtType,txtbaseBid,txtLocation,txtendTime;
+        CoordinatorLayout view;
+        TextView txtItemName,txtType,txtbaseBid,txtLocation,txtendTime;
         ImageView imageView;
-        Button bidBtn;
-        boolean didBid;
         String bidAmt;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            view=(ConstraintLayout) itemView.findViewById(R.id.view);
-            txtitemName=(TextView)itemView.findViewById(R.id.item_name);
-            txtType=itemView.findViewById(R.id.type);
+            view=(CoordinatorLayout) itemView.findViewById(R.id.view);
+            txtItemName=(TextView)itemView.findViewById(R.id.item_name);
+            txtType=itemView.findViewById(R.id.all_itemType);
             txtbaseBid = (TextView) itemView.findViewById(R.id.base_bid);
-            txtLocation = (TextView) itemView.findViewById(R.id.location);
-            txtendTime = (TextView) itemView.findViewById(R.id.end_time);
+            txtLocation = (TextView) itemView.findViewById(R.id.item_Location);
+            txtendTime = (TextView) itemView.findViewById(R.id.endTime);
             imageView = (ImageView) itemView.findViewById(R.id.image_view);
-            bidBtn = (Button) itemView.findViewById(R.id.placeBid);
-            didBid=false;
             bidAmt="";
         }
     }

@@ -1,6 +1,8 @@
 package com.example.goingonce.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +66,10 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.MyViewHo
             super(itemView);
             popItemName=itemView.findViewById(R.id.popularItemName);
             popularImg=itemView.findViewById(R.id.all_menu_image);
+            Paint paintBorder=new Paint();
+
+            popularImg.setLayerType(View.LAYER_TYPE_SOFTWARE,paintBorder);
+            paintBorder.setShadowLayer(4.0f, 0.0f, 2.0f, Color.BLACK);
         }
     }
 }
