@@ -84,6 +84,23 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
 
             }
         });
+        String priceNow=txtPrice.getText().toString();
+        imgMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double x=(Double.parseDouble(priceNow.substring(priceNow.indexOf("$")+1))*109)-1;
+                Toast.makeText(c,String.valueOf(x),Toast.LENGTH_SHORT).show();
+                txtBid.setText(String.valueOf(x));
+
+            }
+        });
+        imgAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x=Integer.parseInt(priceNow)+1;
+                txtBid.setText(String.valueOf(x));
+            }
+        });
     }
 
     private void getActivityData() {
@@ -108,7 +125,6 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
         imgMore=findViewById(R.id.moreBtn);
         btnBid=findViewById(R.id.btnBid);
         txtBid=findViewById(R.id.txtBid);
-
     }
 
 
