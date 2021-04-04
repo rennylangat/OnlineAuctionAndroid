@@ -13,10 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoingOnce">
-        <activity android:name=".activities.ViewItem"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+        <activity android:name=".activities.ViewCartActivity"></activity>
+        <activity
+            android:name=".activities.ViewItem"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".activities.MyBids" />
         <activity android:name=".Settings.SettingsActivity" />
         <activity android:name=".activities.EditItemActivity" />
@@ -26,6 +26,7 @@
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -81,7 +81,7 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(c,"User Cancelled",Toast.LENGTH_SHORT).show();
             }
         });
         String priceNow=txtPrice.getText().toString();
