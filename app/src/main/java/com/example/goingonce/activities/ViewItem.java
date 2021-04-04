@@ -7,6 +7,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,11 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.goingonce.R;
+import com.example.goingonce.models.CartItems;
 import com.example.goingonce.models.ItemDets;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ThrowOnExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -31,6 +35,7 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
 
     private DatabaseReference mRef;
     private FirebaseDatabase mDatabase;
+    private FirebaseAuth mAuth;
 
     public Context c=ViewItem.this;
     private ImageView imgItem,imgAdd,imgMinus,imgBack,imgMore;
@@ -38,6 +43,8 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
     private TextView txtType,txtLocation,txtTitle,txtPrice,txtDesc;
     private String itemId,itemTitle,itemDesc,itemType,itemPrice,itemLocation,itemImage,priceNow,basePrice;
     private EditText txtBid;
+    private CartItems cart;
+    private String uID;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -50,6 +57,7 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
         setUpWidgets();
         getActivityData();
 
+        uID= FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase=FirebaseDatabase.getInstance();
         mRef=mDatabase.getReference();
         mRef.child("Posts").orderByChild("itemID").equalTo(itemId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -109,9 +117,11 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
                     double y=x-1;
                     priceNow=String.valueOf(y);
                     txtBid.setText(String.valueOf(y));
+                }else{
+                    //Do nothing
+                    Toast.makeText(c,"Hiyo ndio bei ya mwisho mkubwa",Toast.LENGTH_SHORT).show();
                 }
-                //Do nothing
-                Toast.makeText(c,"Hiyo ndio bei ya mwisho mkubwa",Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -128,11 +138,29 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 //Add item to cart with new base bid and open home page
-
+                final String itemID=itemId;
+                final String itemPrice=txtBid.getText().toString();
+                addToCart(itemID,itemPrice);
+                startActivity(new Intent(c,MainActivity.class));
+                finish();
             }
         });
 
 
+    }
+
+    private void addToCart(String itemID, String itemPrice) {
+        if (!itemID.isEmpty()&&!itemPrice.isEmpty()){
+            DatabaseReference ref2=mDatabase.getReference();
+            DatabaseReference newItem=ref2.child("Cart").child(uID).push();
+            newItem.child("itemID").setValue(itemID);
+            newItem.child("itemPrice").setValue(itemPrice);
+
+            Toast.makeText(c,"Added to cart successfully",Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(c,"A field is missing",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void getActivityData() {

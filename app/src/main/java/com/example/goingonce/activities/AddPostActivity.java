@@ -175,6 +175,8 @@ public class AddPostActivity extends AppCompatActivity {
                         newPost.child("endTime").setValue(endTime);
                         newPost.child("imageUrl").setValue(downloadUrl);
 
+                        //Add Seller ID to Firebase too
+
                         Toast.makeText(getApplicationContext(),"Item Published Successfully!",Toast.LENGTH_SHORT).show();
 
                         startActivity(new Intent(AddPostActivity.this, MainActivity.class));

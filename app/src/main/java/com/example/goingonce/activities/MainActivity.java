@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if (id==R.id.settings){
             startActivity(new Intent(mContext, SettingsActivity.class));
         }else if (id==R.id.myBids){
-            startActivity(new Intent(mContext,MyBids.class));
+            startActivity(new Intent(mContext,ViewCartActivity.class));
         }
 
         DrawerLayout drawerLayout=findViewById(R.id.drawer);
