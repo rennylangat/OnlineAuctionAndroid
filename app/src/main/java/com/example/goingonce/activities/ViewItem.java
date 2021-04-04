@@ -36,7 +36,7 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
     private ImageView imgItem,imgAdd,imgMinus,imgBack,imgMore;
     private Button btnBid;
     private TextView txtType,txtLocation,txtTitle,txtPrice,txtDesc;
-    private String itemId,itemTitle,itemDesc,itemType,itemPrice,itemLocation,itemImage;
+    private String itemId,itemTitle,itemDesc,itemType,itemPrice,itemLocation,itemImage,priceNow,basePrice;
     private EditText txtBid;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -73,6 +73,8 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
                         Picasso.get().load(itemImage).into(imgItem);
                         txtBid.setText(itemPrice);
                         txtDesc.setText(itemDesc);
+                        priceNow= txtBid.getText().toString();
+                        basePrice=dets.getBaseBid();
                     }
                 }else{
                     Toast.makeText(c,"Could not get item Details",Toast.LENGTH_SHORT).show();
@@ -84,23 +86,53 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
                 Toast.makeText(c,"User Cancelled",Toast.LENGTH_SHORT).show();
             }
         });
-        String priceNow=txtPrice.getText().toString();
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        imgMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(c,"You really want more details?",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         imgMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double x=(Double.parseDouble(priceNow.substring(priceNow.indexOf("$")+1))*109)-1;
-                Toast.makeText(c,String.valueOf(x),Toast.LENGTH_SHORT).show();
-                txtBid.setText(String.valueOf(x));
+                double x=Double.parseDouble(priceNow);
+                if (x> Double.parseDouble(basePrice)){
+                    double y=x-1;
+                    priceNow=String.valueOf(y);
+                    txtBid.setText(String.valueOf(y));
+                }
+                //Do nothing
+                Toast.makeText(c,"Hiyo ndio bei ya mwisho mkubwa",Toast.LENGTH_SHORT).show();
 
             }
         });
         imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int x=Integer.parseInt(priceNow)+1;
+                double x=Double.parseDouble(priceNow)+1;
+                priceNow=String.valueOf(x);
                 txtBid.setText(String.valueOf(x));
             }
         });
+
+        btnBid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Add item to cart with new base bid and open home page
+
+            }
+        });
+
+
     }
 
     private void getActivityData() {

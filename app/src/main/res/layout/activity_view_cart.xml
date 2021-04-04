@@ -22,7 +22,42 @@
         android:textSize="20sp"
         android:textColor="@color/black"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cartRecycler"
+            android:layout_below="@+id/txtCartLbl"
+            android:layout_marginTop="10dp">
 
+        </androidx.recyclerview.widget.RecyclerView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            android:layout_below="@+id/cartRecycler">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SubTotal: "
+            android:layout_marginTop="30dp"
+            android:textSize="18sp"
+            android:layout_marginRight="7dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/rubik_medium"
+            android:layout_toLeftOf="@+id/totalTxt"
+            android:id="@+id/subtotalLbl"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ksh 100"
+            android:layout_marginTop="30dp"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/rubik_medium"
+            android:id="@+id/totalTxt"/>
+        </RelativeLayout>
     </RelativeLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
