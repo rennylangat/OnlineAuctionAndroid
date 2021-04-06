@@ -1,16 +1,20 @@
 package com.example.goingonce.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.goingonce.Adapters.CartAdapter;
 import com.example.goingonce.R;
@@ -36,11 +40,13 @@ public class ViewCartActivity extends AppCompatActivity {
     private ArrayList<CartItems> cartItems;
     private String uID;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_cart);
 
+        getWindow().setStatusBarColor(Color.BLACK);
         cartItems=new ArrayList<CartItems>();
         mAuth=FirebaseAuth.getInstance();
         uID=mAuth.getCurrentUser().getUid();
@@ -55,6 +61,8 @@ public class ViewCartActivity extends AppCompatActivity {
                         CartItems items=ds1.getValue(CartItems.class);
                         cartItems.add(items);
                         getCartData(cartItems);
+                        getSubtotal(cartItems);
+
                     }
                 }
             }
@@ -64,6 +72,17 @@ public class ViewCartActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    /*
+    *Method to get subtotal by looping thorough the items and adding prices to an array.
+    * We shall get each item, convert it to int, store the int in an array.
+    * When we get to the end of the array list, find the sum of the items in the array, find the VAT and display final price to pay
+    * This final price shall stored in a variable and sent to payment activity as an Intent Extra
+     */
+    private void getSubtotal(ArrayList<CartItems> cartItems) {
+        int x=cartItems.size();
+        Toast.makeText(mContext,cartItems.get(0).getItemPrice()+" Size of arrayList "+String.valueOf(x),Toast.LENGTH_SHORT).show();
     }
 
     private void getCartData(ArrayList<CartItems> cartItems) {

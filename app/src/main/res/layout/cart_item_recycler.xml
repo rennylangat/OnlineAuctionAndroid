@@ -138,9 +138,14 @@
             android:layout_height="30dp"
             android:layout_toRightOf="@+id/extraDets"
             android:layout_below="@+id/base_bid"
+            android:layout_marginLeft="40dp"
+            android:layout_centerHorizontal="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_delete"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            android:layout_marginStart="40dp"
+            android:layout_toEndOf="@+id/extraDets"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

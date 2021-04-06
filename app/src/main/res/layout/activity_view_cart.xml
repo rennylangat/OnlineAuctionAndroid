@@ -35,28 +35,34 @@
             android:layout_height="wrap_content"
             android:elevation="5dp"
             android:layout_below="@+id/cartRecycler">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SubTotal: "
-            android:layout_marginTop="30dp"
-            android:textSize="18sp"
-            android:layout_marginRight="7dp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/rubik_medium"
-            android:layout_toLeftOf="@+id/totalTxt"
-            android:id="@+id/subtotalLbl"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SubTotal: "
+                android:layout_marginTop="30dp"
+                android:textSize="18sp"
+                android:layout_marginRight="7dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/rubik_medium"
+                android:id="@+id/subtotalLbl"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ksh 0.00"
+                android:layout_marginTop="30dp"
+                android:textSize="18sp"
+                android:layout_toRightOf="@id/subtotalLbl"
+                android:fontFamily="@font/rubik_medium"
+                android:id="@+id/totalTxt"/>
+            <Button
+                android:id="@+id/makePymt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm &amp; Pay"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentRight="true"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ksh 0.00"
-            android:layout_marginTop="30dp"
-            android:textSize="18sp"
-            android:layout_marginRight="5dp"
-            android:layout_alignParentRight="true"
-            android:fontFamily="@font/rubik_medium"
-            android:id="@+id/totalTxt"/>
         </RelativeLayout>
     </RelativeLayout>
 
