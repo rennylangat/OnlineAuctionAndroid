@@ -43,7 +43,6 @@ public class ViewItem extends AppCompatActivity implements View.OnClickListener 
     private TextView txtType,txtLocation,txtTitle,txtPrice,txtDesc;
     private String itemId,itemTitle,itemDesc,itemType,itemPrice,itemLocation,itemImage,priceNow,basePrice;
     private EditText txtBid;
-    private CartItems cart;
     private String uID;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

@@ -10,7 +10,6 @@ public class PlaceBidDialog extends Dialog {
 
 
 
-
     public PlaceBidDialog(@NonNull Context context) {
         super(context);
     }
