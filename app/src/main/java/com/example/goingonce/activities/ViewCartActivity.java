@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,6 +41,8 @@ public class ViewCartActivity extends AppCompatActivity {
     private CartAdapter cartAdapter;
     private ArrayList<CartItems> cartItems;
     private String uID;
+    private TextView subTotalTxt;
+    private Button btnPay;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -52,6 +56,9 @@ public class ViewCartActivity extends AppCompatActivity {
         uID=mAuth.getCurrentUser().getUid();
         database=FirebaseDatabase.getInstance();
         mRef=database.getReference();
+
+        subTotalTxt=findViewById(R.id.totalTxt);
+        btnPay=findViewById(R.id.makePymt);
 
         mRef.child("Cart").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -72,6 +79,12 @@ public class ViewCartActivity extends AppCompatActivity {
 
             }
         });
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(mContext,PaymentActivity.class);
+            }
+        });
     }
 
     /*
@@ -82,6 +95,8 @@ public class ViewCartActivity extends AppCompatActivity {
      */
     private void getSubtotal(ArrayList<CartItems> cartItems) {
         int x=cartItems.size();
+        double y=Double.parseDouble(cartItems.get(0).getItemPrice());
+        subTotalTxt.setText(String.valueOf(y*1.16));
         Toast.makeText(mContext,cartItems.get(0).getItemPrice()+" Size of arrayList "+String.valueOf(x),Toast.LENGTH_SHORT).show();
     }
 

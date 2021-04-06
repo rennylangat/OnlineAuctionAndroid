@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:text="Confirm &amp; Pay"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="7dp"
                 android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
