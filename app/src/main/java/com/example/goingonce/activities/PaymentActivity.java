@@ -51,8 +51,8 @@ public class PaymentActivity extends AppCompatActivity {
     private Context mContext=PaymentActivity.this;
 
 
-    private String API_GET_TOKEN="https://wabebe-braintree.herokuapp.com//main.php";
-    private String API_CHECK_OUT="https://wabebe-braintree.herokuapp.com//checkout.php";
+    private String API_GET_TOKEN="https://goingonce.herokuapp.com//main.php";
+    private String API_CHECK_OUT="https://goingonce.herokuapp.com//checkout.php";
     private String token,amount;
     private HashMap<String, String> paramHash;
 
@@ -134,7 +134,7 @@ public class PaymentActivity extends AppCompatActivity {
                 PaymentMethodNonce nonce=result.getPaymentMethodNonce();
                 String strNonce=nonce.getNonce();
 
-                if (!mEditAmt.getText().toString().isEmpty()){
+                if (!mEditAmt.getText().toString().isEmpty()|| Integer.parseInt(mEditAmt.getText().toString())!=0){
                     amount=getCurrentAmount();
                     paramHash=new HashMap<>();
                     paramHash.put("amount",amount);
@@ -161,7 +161,8 @@ public class PaymentActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         if (response.toString().contains("Successful")) {
                             Toast.makeText(mContext, "Transaction Successful", Toast.LENGTH_SHORT).show();
-                            //requestPickupHere();
+                            clearCart();
+                            startActivity(new Intent(mContext,MainActivity.class));
                         }else{
                             Toast.makeText(mContext,"Transaction Failed "+response,Toast.LENGTH_SHORT).show();
                             Log.d("PaymentActivity:",response);
@@ -192,8 +193,12 @@ public class PaymentActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    private void clearCart() {
+        mRef.child("Cart").child(currUserID).removeValue();
+    }
+
     private String getCurrentAmount() {
-        return mEditAmt.getText().toString().split("Ksh ")[1];
+        return mEditAmt.getText().toString();
     }
 
     private class getToken  extends AsyncTask {

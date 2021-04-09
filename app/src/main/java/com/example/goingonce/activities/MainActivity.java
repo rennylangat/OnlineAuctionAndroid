@@ -95,137 +95,139 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         getWindow().setStatusBarColor(Color.BLACK);
-        currLocale=getResources().getConfiguration().locale;
+        currLocale = getResources().getConfiguration().locale;
 
 
-        popularItemsArrayList=new ArrayList<PopularItems>();
-        recommendedItems=new ArrayList<RecommendedItems>();
-        mFirebaseAuth=FirebaseAuth.getInstance();
+        popularItemsArrayList = new ArrayList<PopularItems>();
+        recommendedItems = new ArrayList<RecommendedItems>();
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
-        if (mFirebaseAuth.getCurrentUser()==null){
-            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        if (mFirebaseAuth.getCurrentUser() == null) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
-        }
-        Log.d(TAG,"No user Logged in.");
+        } else {
+            Log.d(TAG, "No user Logged in.");
 
 
-        mFirebaseAuth=FirebaseAuth.getInstance();
+            mFirebaseAuth = FirebaseAuth.getInstance();
 
-        mDatabaseReference= FirebaseDatabase.getInstance().getReference();
+            mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
-        //setup Widgets
-        mDrawerLayout=findViewById(R.id.drawer);
-        navigationView=findViewById(R.id.nav_view);
-        progressBar=findViewById(R.id.progressBarHome);
+            //setup Widgets
+            mDrawerLayout = findViewById(R.id.drawer);
+            navigationView = findViewById(R.id.nav_view);
+            progressBar = findViewById(R.id.progressBarHome);
 
-        navigationView.setNavigationItemSelectedListener(this);
+            navigationView.setNavigationItemSelectedListener(this);
 
-        mDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+            mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        //Magic Trick to hide sensitive info lol
+            //Magic Trick to hide sensitive info lol
 
-        View header=navigationView.getHeaderView(0);
-        String mail=mFirebaseAuth.getCurrentUser().getEmail();
-        TextView txtMail=header.findViewById(R.id.usrMail);
-        String usrName=mail.substring(0,mail.indexOf("@"));
-        String domainName=mail.substring(mail.indexOf("@"));
-        int len=usrName.length();
-        if (len<4){
-            Toast.makeText(mContext,"Full mail will be displayed",Toast.LENGTH_SHORT).show();
-        }
-        txtMail.setText(usrName.substring(0,len-4)+"****"+domainName);
-        mDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        //All Items Recycler
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_view_home);
-        linearLayoutManager=new LinearLayoutManager(this);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.setAdapter(mAdapter);
-        itemDets=new ArrayList<ItemDets>();
+            View header = navigationView.getHeaderView(0);
+            String mail = mFirebaseAuth.getCurrentUser().getEmail();
+            TextView txtMail = header.findViewById(R.id.usrMail);
+            String usrName = mail.substring(0, mail.indexOf("@"));
+            String domainName = mail.substring(mail.indexOf("@"));
+            int len = usrName.length();
+            if (len < 4) {
+                Toast.makeText(mContext, "Full mail will be displayed", Toast.LENGTH_SHORT).show();
+            }
+            txtMail.setText(usrName.substring(0, len - 4) + "****" + domainName);
+            mDrawerToggle.syncState();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        mDatabaseReference.child("Posts").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    progressBar.setVisibility(View.INVISIBLE);
+            //All Items Recycler
+            recyclerView = (RecyclerView) findViewById(R.id.recycler_view_home);
+            linearLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            recyclerView.setAdapter(mAdapter);
+            itemDets = new ArrayList<ItemDets>();
 
-                    for (DataSnapshot ds1:snapshot.getChildren()){
 
-                        try {
-                            ItemDets dets=ds1.getValue(ItemDets.class);
-                            itemDets.add(dets);
-                            progressBar.setVisibility(View.INVISIBLE);
+            mDatabaseReference.child("Posts").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        progressBar.setVisibility(View.INVISIBLE);
 
-                        }catch (Exception e){
-                            Toast.makeText(mContext,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        for (DataSnapshot ds1 : snapshot.getChildren()) {
+
+                            try {
+                                ItemDets dets = ds1.getValue(ItemDets.class);
+                                itemDets.add(dets);
+                                progressBar.setVisibility(View.INVISIBLE);
+
+                            } catch (Exception e) {
+                                Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
                         }
 
+                        postAdapter = new PostsAdapter(itemDets, MainActivity.this);
+                        recyclerView.setAdapter(postAdapter);
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No Bids Posted Yet", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
 
-                    postAdapter=new PostsAdapter(itemDets,MainActivity.this);
-                    recyclerView.setAdapter(postAdapter);
-
-                }else{
-                    Toast.makeText(getApplicationContext(),"No Bids Posted Yet",Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.INVISIBLE);
                 }
 
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(mContext,"Error connecting to Dbase",Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(mContext, "Error connecting to Dbase", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-        //Popular Items Recycler Setup
+            //Popular Items Recycler Setup
 
-        mDatabaseReference.child("Popular").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot snapshot1:snapshot.getChildren()){
-                        PopularItems items=snapshot1.getValue(PopularItems.class);
-                        popularItemsArrayList.add(items);
-                        getPopularData(popularItemsArrayList);
+            mDatabaseReference.child("Popular").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            PopularItems items = snapshot1.getValue(PopularItems.class);
+                            popularItemsArrayList.add(items);
+                            getPopularData(popularItemsArrayList);
+                        }
+                    } else {
+                        Toast.makeText(mContext, "No Popular Items", Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(mContext,"No Popular Items",Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
 
-        //Recommended Items Recycler
+            //Recommended Items Recycler
 
-        mDatabaseReference.child("Recommended").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot snapshot1:snapshot.getChildren()){
-                        RecommendedItems recitems=snapshot1.getValue(RecommendedItems.class);
-                        recommendedItems.add(recitems);
-                        getRecommendedData(recommendedItems);
+            mDatabaseReference.child("Recommended").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            RecommendedItems recitems = snapshot1.getValue(RecommendedItems.class);
+                            recommendedItems.add(recitems);
+                            getRecommendedData(recommendedItems);
+                        }
+                    } else {
+                        Toast.makeText(mContext, "No Recommended Items", Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(mContext,"No Recommended Items",Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
 
+        }
     }
 
     private void getRecommendedData(ArrayList<RecommendedItems> recommendedItemsArrayList) {

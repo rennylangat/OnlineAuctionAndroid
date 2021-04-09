@@ -31,6 +31,8 @@
             android:background="@drawable/search_bg"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:focusable="false"
+            android:focusedByDefault="false"
             android:paddingLeft="16dp"
             android:inputType="text"
             android:singleLine="true"

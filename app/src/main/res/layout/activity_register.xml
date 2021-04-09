@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/txtMail"
+                android:inputType="textEmailAddress"
                 android:hint="Email">
 
             </com.google.android.material.textfield.TextInputEditText>
@@ -49,6 +50,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 android:id="@+id/txtPhone"
                 android:hint="Phone">
 
