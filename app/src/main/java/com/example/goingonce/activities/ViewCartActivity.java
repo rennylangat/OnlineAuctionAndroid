@@ -82,8 +82,9 @@ public class ViewCartActivity extends AppCompatActivity {
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,"Unadai kufuliza?",Toast.LENGTH_SHORT).show();
                 Intent i=new Intent(mContext,PaymentActivity.class);
+                i.putExtra("amount",subTotalTxt.getText().toString());
+                startActivity(i);
             }
         });
     }

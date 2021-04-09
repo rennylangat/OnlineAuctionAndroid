@@ -50,9 +50,9 @@ public class PaymentActivity extends AppCompatActivity {
 
     private Context mContext=PaymentActivity.this;
 
+
     private String API_GET_TOKEN="https://wabebe-braintree.herokuapp.com//main.php";
     private String API_CHECK_OUT="https://wabebe-braintree.herokuapp.com//checkout.php";
-
     private String token,amount;
     private HashMap<String, String> paramHash;
 
@@ -60,8 +60,7 @@ public class PaymentActivity extends AppCompatActivity {
     private TextView mEditAmt,mCancelBtn;
     private LinearLayout mGroupWaiting, mGroupPayment;
 
-    private String userID,currLocation,destination,rideID,profile_photo,profile_photo2,pickupLocation, currUserID, username, cost, pickupTime, dateOnly,licensePlate;
-    private int seatsAvailable=0;
+    private String currUserID, cost;
 
     private IFCMService ifcmService;
     private DatabaseReference mRef;
@@ -116,16 +115,7 @@ public class PaymentActivity extends AppCompatActivity {
         Bundle extras=getIntent().getExtras();
 
         if (extras!=null){
-            userID=getIntent().getStringExtra("userID");
-            currLocation=getIntent().getStringExtra("currentLocation");
-            destination=getIntent().getStringExtra("destination");
-            rideID=getIntent().getStringExtra("rideID");
-            profile_photo2=getIntent().getStringExtra("profile_photo");
-            pickupLocation=getIntent().getStringExtra("pickupLocation");
-            cost=getIntent().getStringExtra("cost");
-            licensePlate=getIntent().getStringExtra("licensePlate");
-            dateOnly=getIntent().getStringExtra("dateOnly");
-            pickupTime=getIntent().getStringExtra("pickupTime");
+            cost=getIntent().getStringExtra("amount");
         }else{
             Toast.makeText(mContext,"Error getting data from previous screen", Toast.LENGTH_SHORT).show();
         }
